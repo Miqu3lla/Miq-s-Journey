@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import postRoutes from './router/posts.js';
+
 
 
 
@@ -9,4 +11,6 @@ app.use(express.json());
 app.use(cors());
 
 //routing
+
+app.use('/api/posts', postRoutes);
 

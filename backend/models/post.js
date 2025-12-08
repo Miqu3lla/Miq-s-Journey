@@ -6,12 +6,15 @@ const postSchema = new mongoose.Schema({
         required: true
     },
     content: {
-        type: String.
+        type: String,
         required: true
-    }
+    },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    }
-})
+    },
+    tags: [String]
+}, {timestamps: true});
+
+export default mongoose.model('Post', postSchema);
