@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import postRoutes from './router/posts.js';
-
+import postRoutes from './router/postsRouter.js';
+import userRoutes from './router/userRoutes.js';
 
 
 
@@ -12,5 +12,10 @@ app.use(cors());
 
 //routing
 
-app.use('/api/posts', postRoutes);
+app.use('/api/post', postRoutes);
+app.use('/api/user', userRoutes);
+
+
+
+export default app;
 
