@@ -22,3 +22,19 @@ export const createPost = async (req, res) => {
         res.status(500).json({error: 'Failed to create post', details: err.message});
     }
 }
+
+//get all posts
+
+export const getAllPosts = async (req, res) =>{
+    try {
+        //find all posts and populate author field with username
+        const posts = await Post.find().populate('author', 'username');
+        //ok status with posts data
+        if (posts.length === 0) {
+            return res.status(404).json({message: 'No posts found'});
+        }
+        res.status(200).json({posts});
+    }catch (err) {
+        res.status(500).json({error: 'Failed to fetch posts', details: err.message})
+    }
+}
