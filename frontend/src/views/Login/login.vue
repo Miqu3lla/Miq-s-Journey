@@ -16,7 +16,9 @@ const user = ref('')
 const handleLogin = async () => {
     loading.value = true
     try {
-        const login = await authStore.login(username.value, password.value)
+        //gain access to the login logic from auth store
+        const login = await authStore.handleLogin(username.value, password.value)
+        //check if login was successful
         if (login.success) {
             message.value = login.message
         }
@@ -24,7 +26,7 @@ const handleLogin = async () => {
             message.value = login.message
         }
     }catch (error) {
-        message.value = 'An error occurred during login.'
+        message.value = `An error occurred: ${error.message}`
     } finally {
         loading.value = false
     }

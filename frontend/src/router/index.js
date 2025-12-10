@@ -10,9 +10,27 @@ const router = createRouter({
     {
       path: '/login',
       name: 'Login',
-      component: () => import('../views/Login/login.vue')
+      component: () => import('../views/Login/login.vue'),
+      meta: { requiresAuth: false }
+    },
+    {
+      path: '/home',
+      name: 'Home',
+      component: () => import('../views/Home/Home.vue'),
+      meta: { guest: true }
     }
   ],
+})
+
+router.beforeEach((to, from, next) =>{
+  const isAuthenticated = JSON.parse(localStorage.getItem('user'))
+
+  if (isAuthenticated && to.meta.requiresAuth === false) {
+    next('/home')
+  }
+  else if (!isAuthenticated && to.meta.guest) {
+    next('/login')
+  }
 })
 
 export default router

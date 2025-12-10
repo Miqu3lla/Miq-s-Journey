@@ -1,6 +1,7 @@
 import {defineStore } from 'pinia';
 import axios from 'axios';
 import {ref } from 'vue';
+import router from '../router/index.js';
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref(null);
@@ -21,11 +22,12 @@ export const useAuthStore = defineStore('auth', () => {
         })
         //set user data on successful login
         user.value = {
-            userID: response.data._id,
+            userID: response.data.userID,
             username: response.data.username
         }
         //save user data to local storage
         localStorage.setItem('user', JSON.stringify(user.value))
+        router.push('/home')
         //return success message if saved
         return {
             success: true,
@@ -35,6 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
     }catch (err) {
         //set error message on failed login
         error.value = err.response?.data?.message || "An error occurred during login."
+        //returns false with error message
         return {
             success: false,
             message: error.value
@@ -45,9 +48,14 @@ export const useAuthStore = defineStore('auth', () => {
 }
 
 return {
+    //state
     user,
     loading,
     error,
-    handleLogin
+
+    //getters
+
+    //actions
+    handleLogin,
 }
 })
