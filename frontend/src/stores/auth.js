@@ -46,6 +46,11 @@ export const useAuthStore = defineStore('auth', () => {
         loading.value = false
     }
 }
+const logout = () => {
+    user.value = null
+    localStorage.removeItem('user')
+    router.push('/login')
+}
 
 return {
     //state
@@ -57,5 +62,6 @@ return {
 
     //actions
     handleLogin,
+    logout,
 }
 })
