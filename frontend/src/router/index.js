@@ -11,7 +11,7 @@ const router = createRouter({
       path: '/login',
       name: 'Login',
       component: () => import('../views/Login/login.vue'),
-      meta: { requiresAuth: false }
+      meta: { requiresAuth: true }
     },
     {
       path: '/home',
@@ -25,12 +25,14 @@ const router = createRouter({
 router.beforeEach((to, from, next) =>{
   const isAuthenticated = JSON.parse(localStorage.getItem('user'))
 
-  if (isAuthenticated && to.meta.requiresAuth === false) {
+ if (to.meta.requiresAuth && isAuthenticated) {
     next('/home')
-  }
-  else if (!isAuthenticated && to.meta.guest) {
+ }
+else if (to.meta.guest && !isAuthenticated) {
     next('/login')
-  }
+ } else {
+    next()
+ }
 })
 
 export default router
