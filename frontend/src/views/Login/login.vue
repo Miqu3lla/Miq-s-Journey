@@ -3,25 +3,28 @@
 import LoginCard from '@/components/LoginCard.vue'
 import axios from 'axios'
 import {ref} from 'vue'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 
 const username = ref('')
 const password = ref('')
 const message = ref('')
 const loading = ref(false)
 const user = ref('')
+
 const handleLogin = async () => {
-    try { 
-        loading.value = true
-        const response = await axios.post("http://localhost:4000/api/user/login", {
-            username: username.value,
-            password: password.value
-        })
-        user.value = response.data
-        message.value = "Welcome back, " + user.value.username + "!!"
-        console.log(user.value)
+    loading.value = true
+    try {
+        const login = await authStore.login(username.value, password.value)
+        if (login.success) {
+            message.value = login.message
+        }
+        else {
+            message.value = login.message
+        }
     }catch (error) {
-        message.value = error.response?.data?.message || "An error occurred during login."
-        console.log(message.value)
+        message.value = 'An error occurred during login.'
     } finally {
         loading.value = false
     }
@@ -31,7 +34,7 @@ const handleLogin = async () => {
 
 <template>
     
-    <div class = "flex bg-gradient-to-b from-indigo-700 to-indigo-900  min-h-screen ">
+    <div class = "flex gap-10 bg-gradient-to-b from-indigo-700 to-indigo-900  min-h-screen ">
         <div class = "hidden ml-60 mt-50 w-170 xl:block">
             <h1 class ='text-5xl text-white flex flex-col font-sans font-semibold'>Welcome Back 
                 <span class = 'bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent'>Miquella!</span></h1>
@@ -67,7 +70,7 @@ const handleLogin = async () => {
                         <input v-model="username" placeholder="Enter your Username"type="text" class="w-50 border p-3 w-100 rounded-md"/>
                         <h1 class = "mt-4">Password: </h1>
                         <input v-model="password" placeholder="Enter your Password"type="password" class = "mt-4 mb-3 border rounded-md p-3 w-100"/>
-                        <button type="submit" class = "bg-indigo-700 text-white rounded-md h-10 mt-6 hover:bg-indigo-600 transition-colors">Sign in to your Space</button>
+                        <button type="submit" class = "bg-indigo-700 text-white rounded-md p-3 mt-6 hover:bg-indigo-600 transition-colors ">Sign in to your Space</button>
                         <h1>{{ message }}</h1>
                     </form>
                 </div>
