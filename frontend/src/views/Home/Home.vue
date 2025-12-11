@@ -4,7 +4,7 @@ import { useAuthStore } from '@/stores/auth';
 const authStore = useAuthStore();
 
 const logout = () => {
-    const result = authStore.logout();
+    authStore.logout();
 }
 </script>
 

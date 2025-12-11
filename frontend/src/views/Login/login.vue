@@ -4,8 +4,10 @@ import LoginCard from '@/components/LoginCard.vue'
 import axios from 'axios'
 import {ref} from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useToast } from 'vue-toastification'
 
 const authStore = useAuthStore()
+const toast = useToast()
 
 const username = ref('')
 const password = ref('')
@@ -20,10 +22,10 @@ const handleLogin = async () => {
         const login = await authStore.handleLogin(username.value, password.value)
         //check if login was successful
         if (login.success) {
-            message.value = login.message
+            toast.success('Login successful! Welcome back.')
         }
         else {
-            message.value = login.message
+            toast.error('Login failed! Please check your credentials and try again.')
         }
     }catch (error) {
         message.value = `An error occurred: ${error.message}`
@@ -36,7 +38,7 @@ const handleLogin = async () => {
 
 <template>
     
-    <div class = "flex gap-10 bg-gradient-to-b from-indigo-700 to-indigo-900  min-h-screen ">
+    <div class="flex gap-10 min-h-screen bg-cover bg-center" style="background-image: url('/src/images/login_background.png'); background-size: cover; background-attachment: fixed;">
         <div class = "hidden ml-60 mt-50 w-170 xl:block">
             <h1 class ='text-5xl text-white flex flex-col font-sans font-semibold'>Welcome Back 
                 <span class = 'bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent'>Miquella!</span></h1>

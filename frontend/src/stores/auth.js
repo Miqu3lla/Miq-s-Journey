@@ -1,6 +1,6 @@
 import {defineStore } from 'pinia';
 import axios from 'axios';
-import {ref } from 'vue';
+import {ref, computed} from 'vue';
 import router from '../router/index.js';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -9,6 +9,8 @@ export const useAuthStore = defineStore('auth', () => {
     const error = ref(null);
 
     //getters
+    const isOwner = computed(() => user.value.role === 'owner');
+    const isGuest = computed(() => user.value.role === 'guest');
 
     //actions
     const handleLogin = async (username, password) => {
@@ -23,7 +25,8 @@ export const useAuthStore = defineStore('auth', () => {
         //set user data on successful login
         user.value = {
             userID: response.data.userID,
-            username: response.data.username
+            username: response.data.username,
+            role: 'owner'
         }
         //save user data to local storage
         localStorage.setItem('user', JSON.stringify(user.value))
@@ -51,17 +54,33 @@ const logout = () => {
     localStorage.removeItem('user')
     router.push('/login')
 }
+const guestLogin = () => {
+    user.value = {
+        userID: null,
+        username: 'Guest',
+        role: 'guest'
+    }
+    localStorage.setItem('user', JSON.stringify(user.value))
+    router.push('/home')
+    }
 
-return {
+
+    return {
     //state
     user,
     loading,
     error,
 
     //getters
+    isOwner,
+    isGuest,
 
     //actions
     handleLogin,
+    guestLogin,
     logout,
 }
 })
+
+
+
