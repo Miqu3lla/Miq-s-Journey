@@ -20,7 +20,7 @@ app.use(Toast, {
     hideProgressBar: false,
     closeButton: "button",
     icon: true,
-    rtl: false
+    rtl: false,
 })
 
 app.mount('#app')

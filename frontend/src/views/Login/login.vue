@@ -28,7 +28,19 @@ const handleLogin = async () => {
             toast.error('Login failed! Please check your credentials and try again.')
         }
     }catch (error) {
-        message.value = `An error occurred: ${error.message}`
+        toast.error('An error occurred during login. Please try again later.')
+    } finally {
+        loading.value = false
+    }
+}
+
+const handleGuestLogin = async () => {
+    loading.value = true
+    try {
+        authStore.guestLogin()
+        toast.success('Logged in as Guest! Enjoy your stay.')
+    }catch (err) {
+        toast.error('An error occurred during guest login. Please try again later.')
     } finally {
         loading.value = false
     }
@@ -64,7 +76,7 @@ const handleLogin = async () => {
             />
         </div>    
         </div>
-        <div class = 'flex flex-col justify-center items-center w- xl:w-1/3 '>
+        <div class = 'flex flex-col justify-center items-center w-1000 xl:w-1/3 '>
             <div class = "flex bg-white rounded-lg h-160 w-130 xl:mt-10">
                 <div class = "mt-10 ml-10">
                     <h1 class = "mb-5 text-2xl font-semibold">Welcome back</h1>
@@ -75,8 +87,10 @@ const handleLogin = async () => {
                         <h1 class = "mt-4">Password: </h1>
                         <input v-model="password" placeholder="Enter your Password"type="password" class = "mt-4 mb-3 border rounded-md p-3 w-100"/>
                         <button type="submit" class = "bg-indigo-700 text-white rounded-md p-3 mt-6 hover:bg-indigo-600 transition-colors ">Sign in to your Space</button>
-                        <h1>{{ message }}</h1>
                     </form>
+                    <div class="flex justify-center" @click="handleGuestLogin">
+                            <h1 class="text-indigo-900 font-sans">Sign in as Guest!</h1>
+                        </div>
                 </div>
             </div>
         </div>
