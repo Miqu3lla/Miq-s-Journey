@@ -16,6 +16,7 @@ const loading = ref(false)
     //create post logic
     const createPost = async(title, content, tags) => {
         loading.value = true
+        error.value = null
         //try catch for error handling
     try {
         //use auth store to get current user
@@ -47,7 +48,30 @@ const loading = ref(false)
         }
 
     
-}
+}//view posts logic
+   const viewPosts = async() => {
+    loading.value = true
+    error.value = null
+    try {
+        //fetch get posts from backend
+        const response = await axios.get("http://localhost:4000/api/post/all")
+        //set posts data
+        posts.value = response.data?.posts
+        return {
+            success: true,
+            message: "Posts fetched successfully"
+        }
+    }catch (err) {
+        error.value = err.response?.data?.message || "An error occurred while fetching posts."
+        return {
+            success: false,
+            message: error.value
+        }
+    }finally {
+        loading.value = false
+    }
+
+   }
 return {
     posts,
     error,
@@ -57,6 +81,7 @@ return {
 
     //actions
     createPost,
+    viewPosts
 }
 })
 
