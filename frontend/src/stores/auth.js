@@ -9,8 +9,8 @@ export const useAuthStore = defineStore('auth', () => {
     const error = ref(null);
 
     //getters
-    const isOwner = computed(() => user.value.role === 'owner');
-    const isGuest = computed(() => user.value.role === 'guest');
+    const isOwner = computed(() => user.value?.role === 'owner');
+    const isGuest = computed(() => user.value?.role === 'guest');
 
     //actions
     const handleLogin = async (username, password) => {
