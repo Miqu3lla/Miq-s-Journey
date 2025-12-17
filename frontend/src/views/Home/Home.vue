@@ -1,13 +1,29 @@
 <script setup>
 import { useAuthStore } from '@/stores/authStore';
+import { usePostStore } from '@/stores/postsStore';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
 import CreatePost from '@/components/CreatePost.vue';
 import Posts from '@/components/Posts.vue';
 const authStore = useAuthStore();
+const PostStore = usePostStore();
 
 const isDark = ref(false);
 
+const query = ref('');
+
+const searchPost = () => {
+    // Implement search logic here
+    const search = query.value.toLowerCase();
+    if (!search) {
+        PostStore.viewPosts();
+        return;
+    }
+
+    PostStore.posts = PostStore.posts.filter(post => 
+        post.title.toLowerCase().includes(search) 
+    );
+}
 
 const logout = () => {
     authStore.logout();
@@ -34,6 +50,8 @@ const logout = () => {
                 <div class="relative">
                     <Icon icon="mdi:magnify" :class="isDark ? 'text-gray-400' : 'text-gray-400'" class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5"/>
                     <input 
+                        v-model="query"
+                        @input="searchPost()"
                         type="text" 
                         placeholder="Search posts..." 
                         :class="isDark ? 'bg-[#334155] text-white border-[#334155] placeholder-gray-400' : 'bg-white text-black border-gray-300'"
