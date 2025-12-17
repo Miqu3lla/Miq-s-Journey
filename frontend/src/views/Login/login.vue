@@ -3,7 +3,7 @@
 import LoginCard from '@/components/LoginCard.vue'
 import axios from 'axios'
 import {ref} from 'vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/authStore'
 import { useToast } from 'vue-toastification'
 
 const authStore = useAuthStore()
@@ -11,9 +11,7 @@ const toast = useToast()
 
 const username = ref('')
 const password = ref('')
-const message = ref('')
 const loading = ref(false)
-const user = ref('')
 
 const handleLogin = async () => {
     loading.value = true
@@ -51,7 +49,7 @@ const handleGuestLogin = async () => {
 <template>
     
     <div class="flex gap-10 min-h-screen bg-cover bg-center" style="background-image: url('/src/images/login_background.png'); background-size: cover; background-attachment: fixed;">
-        <div class = "hidden ml-60 mt-50 w-170 xl:block">
+        <div class = "hidden ml-60 mt-45 w-170 xl:block">
             <h1 class ='text-5xl text-white flex flex-col font-sans font-semibold'>Welcome Back 
                 <span class = 'bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent'>Miquella!</span></h1>
             <h1 class = 'text-xl font-medium text-gray-200 my-5'>A private space to document your journey, track your growth, and organize your thoughts.</h1>
@@ -79,8 +77,8 @@ const handleGuestLogin = async () => {
         <div class = 'flex flex-col justify-center items-center w-1000 xl:w-1/3 '>
             <div class = "flex bg-white rounded-lg h-160 w-130 xl:mt-10">
                 <div class = "mt-10 ml-10">
-                    <h1 class = "mb-5 text-2xl font-semibold">Welcome back</h1>
-                    <h1 class = "font-light">Enter your credentials to access your Space</h1>
+                    <h1 class = "mb-3 text-2xl font-semibold">Access Your Space</h1>
+                    <h1 class = "font-light">Enter your credentials below</h1>
                     <form  @submit.prevent="handleLogin" class = "flex flex-col mt-5">
                         <h1 class = "mb-4">Username: </h1>
                         <input v-model="username" placeholder="Enter your Username"type="text" class="w-50 border p-3 w-100 rounded-md"/>
