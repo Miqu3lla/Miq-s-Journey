@@ -75,8 +75,8 @@ const logout = () => {
             </div>
         </div>
     </nav>
-    <div :class="isDark? 'bg-indigo-600' : 'bg-white' " class = "min-h-screen w-full ">
-        <div class = "pt-15 px-15">
+    <div :class="isDark? 'bg-indigo-600' : 'bg-white' "  class = "min-h-screen w-full ">
+        <div :class="authStore.isOwner ? 'block' : 'hidden' " class = "pt-15 px-15">
         <CreatePost :isDark="isDark"/>
         </div>
         <div>
