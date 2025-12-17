@@ -3,6 +3,7 @@ import { useAuthStore } from '@/stores/authStore';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
 import CreatePost from '@/components/CreatePost.vue';
+import Posts from '@/components/Posts.vue';
 const authStore = useAuthStore();
 
 const isDark = ref(false);
@@ -76,9 +77,13 @@ const logout = () => {
     </nav>
     <div :class="isDark? 'bg-indigo-600' : 'bg-white' " class = "min-h-screen w-full ">
         <div class = "pt-15 px-15">
-        <createPost :isDark="isDark"/>
-    </div>
+        <CreatePost :isDark="isDark"/>
+        </div>
+        <div>
+            <Posts :isDark="isDark"/>
+        </div>
      </div>
+    
      
    
     
