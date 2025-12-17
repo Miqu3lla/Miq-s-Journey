@@ -20,12 +20,12 @@ const loading = ref(false)
         //try catch for error handling
     try {
         //use auth store to get current user
-        const authStore = useAuthStore();
         //call backend api to create post   
         const response = await axios.post("http://localhost:4000/api/post/create", {
             title,
             content,
             tags,
+           
         })
 
         //add new post to posts array

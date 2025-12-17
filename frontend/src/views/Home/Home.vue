@@ -7,9 +7,7 @@ const authStore = useAuthStore();
 
 const isDark = ref(false);
 
-function toggleDarkMode() {
-    isDark.value = !isDark.value;
-}
+
 const logout = () => {
     authStore.logout();
 }
@@ -54,7 +52,7 @@ const logout = () => {
                     <Icon icon="mdi:view-grid" class="h-6 w-6"/> 
                 </div>
                 <!-- Light/Dark Mode Toggle -->
-                <div @click ="toggleDarkMode()" 
+                <div @click ="isDark = !isDark" 
                     :class="isDark ? 'text-yellow-300 bg-[#334155] hover:bg-indigo-500' : 'text-gray-600 bg-yellow-100 hover:bg-yellow-400'"
                     class="h-10 w-10 flex items-center justify-center rounded-md hover:text-white transition-colors cursor-pointer"
                     title="Toggle Theme">
@@ -76,8 +74,12 @@ const logout = () => {
             </div>
         </div>
     </nav>
-
-     <div class = "mt-6">
+    <div :class="isDark? 'bg-indigo-600' : 'bg-white' " class = "min-h-screen w-full ">
+        <div class = "pt-15 px-15">
         <createPost :isDark="isDark"/>
     </div>
+     </div>
+     
+   
+    
     </template>
