@@ -3,38 +3,36 @@ import { ref } from "vue";
 import axios from "axios";
 import { useAuthStore } from "./authStore";
 
-
-
+// Pinia store for managing posts state and actions
 export const usePostStore = defineStore('posts',() => {
-const posts = ref([])
-const error = ref(null)
-const loading = ref(false)
-//getters
+// State
+const posts = ref([]) // Array to store all posts
+const error = ref(null) // Error message storage
+const loading = ref(false) // Loading state for async operations
 
+// Getters (none currently defined)
 
-//actions 
-    //create post logic
-    const createPost = async(title, content, tags) => {
-        loading.value = true
-        error.value = null
-        //try catch for error handling
+// Actionss 
+// Create a new post
+const createPost = async(title, content, tags) => {
+    loading.value = true
+    error.value = null
+    
     try {
-        //use auth store to get current user
-        //call backend api to create post   
+        // Send POST request to backend API to create a new post
         const response = await axios.post("http://localhost:4000/api/post/create", {
             title,
             content,
             tags,
-           
         })
 
-        //add new post to posts array
+        // Add new post to the beginning of posts array
         posts.value.unshift(response.data.post)
-        //return success message
+        
+        // Return success status
         return {
             success: true,
             message: response.data.message
-            
         }
         }catch (err) {
             error.value = err.response?.data?.message || "An error occurred while creating the post."
@@ -48,20 +46,26 @@ const loading = ref(false)
         }
 
     
-}//view posts logic
-   const viewPosts = async() => {
+}
+
+// Fetch all posts from the backend
+const viewPosts = async() => {
     loading.value = true
     error.value = null
+    
     try {
-        //fetch get posts from backend
+        // GET request to fetch all posts
         const response = await axios.get("http://localhost:4000/api/post/all")
-        //set posts data
+        
+        // Update posts array with fetched data
         posts.value = response.data?.posts
+        
         return {
             success: true,
             message: "Posts fetched successfully"
         }
     }catch (err) {
+        // Handle errors
         error.value = err.response?.data?.message || "An error occurred while fetching posts."
         return {
             success: false,
@@ -70,8 +74,7 @@ const loading = ref(false)
     }finally {
         loading.value = false
     }
-
-   }
+}
 return {
     posts,
     error,

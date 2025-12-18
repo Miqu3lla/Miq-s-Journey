@@ -1,11 +1,12 @@
 <script setup>
     import {Icon} from '@iconify/vue'
 
+    // Props for displaying feature cards on login page
     const props = defineProps({
-        icons: {type: String},
-        title: {type: String},
-        content: {type: String},
-        iconClass : {type: String}
+        icons: {type: String}, // Icon identifier
+        title: {type: String}, // Card title
+        content: {type: String}, // Card description
+        iconClass : {type: String} // Icon styling classes
     })
 </script>
 

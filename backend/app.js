@@ -3,19 +3,16 @@ import cors from 'cors';
 import postRoutes from './router/postsRouter.js';
 import userRoutes from './router/userRoutes.js';
 
-
-
+// Create Express application
 const app = express();
 
-app.use(express.json());
-app.use(cors());
+// Middleware
+app.use(express.json()); // Parse JSON request bodies
+app.use(cors()); // Enable Cross-Origin Resource Sharing
 
-//routing
-
-app.use('/api/post', postRoutes);
-app.use('/api/user', userRoutes);
-
-
+// API Routes
+app.use('/api/post', postRoutes); // Post-related endpoints
+app.use('/api/user', userRoutes); // User-related endpoints
 
 export default app;
 

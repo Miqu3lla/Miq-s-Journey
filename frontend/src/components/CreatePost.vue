@@ -3,26 +3,33 @@ import { usePostStore } from '@/stores/postsStore';
 import { ref } from 'vue';
 import { useToast } from 'vue-toastification';
 
+// Initialize store and utilities
 const postStore = usePostStore();
 const toast = useToast();
+
+// Form field reactive references
 const title = ref('');
 const content = ref('');
 const tag = ref('');
 
-
+// Handle post submission
 const submitPost = async () => {
     try {
+        // Split tags by comma and trim whitespace
         const result = await postStore.createPost(
             title.value,
             content.value,
             tag.value.split(',').map(t => t.trim())
         );
+        
+        // Show success or error notification
         if (result.success) {
             toast.success('Post created successfully!');
         } else {
             toast.error('Failed to create post: ' + result.message);
         }
-        // Clear form fields
+        
+        // Clear form fields after submission
         title.value = '';
         content.value = '';
         tag.value = '';
@@ -32,10 +39,11 @@ const submitPost = async () => {
     }
 }
 
+// Props from parent component
 const props = defineProps({
     isDark: {
         type: Boolean,
-        required: true
+        required: true // Dark mode state
     }
 });
 

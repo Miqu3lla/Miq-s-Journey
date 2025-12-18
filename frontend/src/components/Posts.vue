@@ -4,10 +4,11 @@ import { ref, computed, onMounted} from 'vue';
 import { useToast } from 'vue-toastification';
 import { Icon } from '@iconify/vue';
 
-
+// Initialize stores and utilities
 const postStore = usePostStore();
 const toast = useToast();
 
+// Computed property to sort posts by creation date (newest first)
 const sortedPosts = computed(() => {
     return [...postStore.posts].sort((a, b) => 
         new Date(b.createdAt) - new Date(a.createdAt)
@@ -15,6 +16,7 @@ const sortedPosts = computed(() => {
 });
 
 
+// Format date to display as "Jan 1" format
 const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -22,12 +24,16 @@ const formatDate = (dateString) => {
         day: 'numeric',
     })
 }
+
+// Props received from parent component
 const props = defineProps({
     isDark: {
         type: Boolean,
-        required: true,
+        required: true, // Dark mode toggle state
     }
 });
+
+// Fetch posts when component is mounted
 onMounted(async () => {
     try {
         await postStore.viewPosts();
