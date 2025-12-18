@@ -1,6 +1,6 @@
 <script setup>
 import { usePostStore } from '@/stores/postsStore';
-import { ref, onMounted} from 'vue';
+import { ref, computed, onMounted} from 'vue';
 import { useToast } from 'vue-toastification';
 import { Icon } from '@iconify/vue';
 
@@ -8,6 +8,11 @@ import { Icon } from '@iconify/vue';
 const postStore = usePostStore();
 const toast = useToast();
 
+const sortedPosts = computed(() => {
+    return [...postStore.posts].sort((a, b) => 
+        new Date(b.createdAt) - new Date(a.createdAt)
+    );
+});
 
 
 const formatDate = (dateString) => {
@@ -34,7 +39,7 @@ onMounted(async () => {
 
 <template>
     <div class="w-full max-w-4xl ">
-        <div v-for="post in postStore.posts" :key="post.id" :class="props.isDark ? 'bg-[#1e293b] text-white border border-gray-500 rounded-lg shadow-md' : 'bg-white text-black  rounded-lg shadow-md'" class= "mb-4 p-4 w-full">
+        <div v-for="post in sortedPosts" :key="post.id" :class="props.isDark ? 'bg-[#1e293b] text-white border border-gray-500 rounded-lg shadow-md' : 'bg-white text-black  rounded-lg shadow-md'" class= "mb-4 p-4 w-full">
             <h1 class ='mb-2'>{{ post.title }}</h1>
             <div class ='flex text-gray-500 mb-5'>
                 <Icon icon="mdi:calendar-blank-outline" class="h-5 w-5 mr-1"/>

@@ -8,8 +8,12 @@ import Posts from '@/components/Posts.vue';
 const authStore = useAuthStore();
 const PostStore = usePostStore();
 
-const isDark = ref(false);
+const isDark = ref(localStorage.getItem('isDarkMode') === 'true');
 
+const toggleDarkMode = () => {
+    isDark.value = !isDark.value;
+    localStorage.setItem('isDarkMode', isDark.value);
+}
 const query = ref('');
 
 const searchPost = () => {
@@ -28,6 +32,7 @@ const searchPost = () => {
 const logout = () => {
     authStore.logout();
 }
+
 
 
 
@@ -75,7 +80,7 @@ const logout = () => {
                     <Icon icon="mdi:view-grid" class="h-6 w-6"/> 
                 </div>
                 <!-- Light/Dark Mode Toggle -->
-                <div @click ="isDark = !isDark" 
+                <div @click ="toggleDarkMode" 
                     :class="isDark ? 'text-yellow-300 bg-[#334155] hover:bg-indigo-500' : 'text-gray-600 bg-yellow-100 hover:bg-yellow-400'"
                     class="h-10 w-10 flex items-center justify-center rounded-md hover:text-white transition-colors cursor-pointer"
                     title="Toggle Theme">
