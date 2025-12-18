@@ -15,7 +15,7 @@ const submitPost = async () => {
         const result = await postStore.createPost(
             title.value,
             content.value,
-            tag.value.trim
+            tag.value.split(',').map(t => t.trim())
         );
         if (result.success) {
             toast.success('Post created successfully!');
@@ -43,8 +43,8 @@ const props = defineProps({
 </script>
 
 <template>
-    <div :class="props.isDark ? 'bg-[#1e293b] text-white rounded-t-lg shadow-md' : 'bg-white text-black  rounded-lg shadow-md'"
-    class = "w-200 ">
+    <div :class="props.isDark ? 'bg-[#1e293b] text-white border border-gray-500 rounded-lg shadow-md' : 'bg-white text-black  rounded-lg shadow-lg'"
+        class = "w-full max-w-4xl ">
         <div class = "ml-6 pt-6 flex">
             <h1 class ="font-medium text-lg">Create new Post</h1>
         </div>
@@ -77,7 +77,7 @@ const props = defineProps({
 <style scoped>
 .input-dark {
     background-color: #334155;
-    border-color: #4b5563;
+    border-color: #c0c5cb;
     color: white;
 }
 

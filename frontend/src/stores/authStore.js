@@ -4,7 +4,8 @@ import {ref, computed} from 'vue';
 import router from '../router/index.js';
 
 export const useAuthStore = defineStore('auth', () => {
-    const user = ref(null);
+    const saveduser = localStorage.getItem('user');
+    const user = ref(saveduser ? JSON.parse(saveduser) : null);
     const loading = ref(false);
     const error = ref(null);
 

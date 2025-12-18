@@ -2,7 +2,7 @@
 import { useAuthStore } from '@/stores/authStore';
 import { usePostStore } from '@/stores/postsStore';
 import { Icon } from '@iconify/vue';
-import { ref } from 'vue';
+import { onMounted, ref, } from 'vue';
 import CreatePost from '@/components/CreatePost.vue';
 import Posts from '@/components/Posts.vue';
 const authStore = useAuthStore();
@@ -28,7 +28,11 @@ const searchPost = () => {
 const logout = () => {
     authStore.logout();
 }
+
+
+
 </script>
+
 
 <template>
     <nav>
@@ -93,11 +97,11 @@ const logout = () => {
             </div>
         </div>
     </nav>
-    <div :class="isDark? 'bg-indigo-600' : 'bg-white' "  class = "min-h-screen w-full ">
-        <div :class="authStore.isOwner ? 'block' : 'hidden' " class = "pt-15 px-15">
-        <CreatePost :isDark="isDark"/>
+    <div :class="isDark? 'bg-indigo-900' : 'bg-white' "  class = "min-h-screen w-full ">
+        <div :class="authStore.isOwner ? 'block' : 'hidden' " class = "pt-15 px-30">
+        <CreatePost :isDark="isDark" />
         </div>
-        <div>
+        <div class = "pt-15 px-30">
             <Posts :isDark="isDark"/>
         </div>
      </div>
