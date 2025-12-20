@@ -32,8 +32,6 @@ const cancelEdit = () => {
 }
 
 
-
-
 const editPost = async (postID) => {
     try { 
         const result = await postStore.editPost({
@@ -49,6 +47,19 @@ const editPost = async (postID) => {
             toast.error('Failed to edit post: ' + result.message);
         }
     }catch(error) {
+        toast.error('An error occured,' + error.message);
+    }
+}
+
+const deletePost = async (postID) => {
+    try {
+        const response = await postStore.deletePost(postID);
+        if (response.success) {
+            toast.success('Post deleted successfully!');
+        } else {
+            toast.error('Failed to delete post: ' + response.message);
+        }
+    } catch (error) {
         toast.error('An error occured,' + error.message);
     }
 }
@@ -96,7 +107,10 @@ onMounted(async () => {
             <div v-if="editingPostId !== post._id">
                 <div class="flex justify-between items-center mb-2">
                     <h1>{{ post.title }}</h1>
-                    <Icon @click="startEditing(post)" icon="mdi:pencil" class="h-5 w-5 text-gray-400 hover:text-indigo-500 cursor-pointer transition-colors" title="Edit post"/>
+                    <div class="flex gap-3">
+                        <Icon @click="startEditing(post)" icon="mdi:pencil" class="h-5 w-5 text-gray-400 hover:text-indigo-500 cursor-pointer transition-colors" title="Edit post"/>
+                        <Icon @click= "deletePost(post._id)"icon="mdi:delete" class="h-5 w-5 text-gray-400 hover:text-red-500 cursor-pointer transition-colors" title="Delete post"/>
+                    </div>
                 </div>
                 <div class ='flex text-gray-500 mb-5'>
                     <Icon icon="mdi:calendar-blank-outline" class="h-5 w-5 mr-1"/>

@@ -107,6 +107,32 @@ const editPost = async ({postID, title, content, tags}) => {
         loading.value = false
     }
 }
+
+const deletePost = async (postID) => {
+    loading.value = true
+    error.value = null
+
+    try  {
+        const response = await axios.delete(`http://localhost:4000/api/post/delete/${postID}`)
+
+        //remove post from posts array
+        posts.value = posts.value.filter(post => post._id !== postID)
+
+        return {
+            success: true,
+            message: response.data.message
+        }
+
+    }catch (err) {
+        error.value = err.response?.data?.message || "An error occurred while deleting the post."
+        return {
+            success: false,
+            message: error.value
+        }
+    }finally {
+        loading.value = false
+    }
+}
 return {
     posts,
     error,
@@ -117,7 +143,8 @@ return {
     //actions
     createPost,
     viewPosts,
-    editPost
+    editPost,
+    deletePost
 }
 })
 

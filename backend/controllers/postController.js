@@ -78,3 +78,20 @@ export const editPost = async (req, res) => {
         })
     }
 }
+
+export const deletePost = async (req, res) => {
+    // Implementation for deleting a post
+
+    const postID = req.params.id;
+
+    try {
+        const deletedPost = await Post.findByIdAndDelete(postID);
+        
+        if (!deletedPost) {
+            return res.status(404).json({message: 'Post not found'});
+        }
+        res.status(200).json({message: 'Post deleted successfully'});
+    }catch (err) {
+        res.status(500).json({error: 'Failed to delete post', details: err.message});
+    }
+}

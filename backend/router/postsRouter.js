@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { createPost, getAllPosts, editPost} from '../controllers/postController.js'
+import { createPost, getAllPosts, editPost, deletePost} from '../controllers/postController.js'
 
 const router = Router();
 
@@ -9,5 +9,6 @@ router.post('/create', createPost)
 // GET /api/post/all - Fetch all posts
 router.get('/all', getAllPosts)
 router.put('/edit/:id', editPost);
+router.delete('/delete/:id', deletePost);
 
 export default router;
