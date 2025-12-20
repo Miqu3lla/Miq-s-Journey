@@ -2,7 +2,7 @@
 import { usePostStore } from '@/stores/postsStore';
 import { ref } from 'vue';
 import { useToast } from 'vue-toastification';
-
+import { Icon } from '@iconify/vue';
 // Initialize store and utilities
 const postStore = usePostStore();
 const toast = useToast();
@@ -51,9 +51,10 @@ const props = defineProps({
 </script>
 
 <template>
-    <div :class="props.isDark ? 'bg-[#1e293b] text-white border border-gray-500 rounded-lg shadow-md' : 'bg-white text-black  rounded-lg shadow-lg'"
+    <div :class="props.isDark ? 'bg-[#1e293b] text-white border border-gray-500 rounded-xl shadow-md' : 'bg-white text-black  rounded-xl shadow-lg'"
         class = "w-full max-w-4xl ">
-        <div class = "ml-6 pt-6 flex">
+        <div class = "ml-6 pt-6 flex gap-3">
+            <Icon icon="mdi:creation" class="h-7 w-7"/>
             <h1 class ="font-medium text-lg">Create new Post</h1>
         </div>
 

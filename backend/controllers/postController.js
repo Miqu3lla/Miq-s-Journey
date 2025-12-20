@@ -53,3 +53,28 @@ export const getAllPosts = async (req, res) =>{
         res.status(500).json({error: 'Failed to fetch posts', details: err.message})
     }
 }
+
+export const editPost = async (req, res) => {
+    // Implementation for editing a post
+    const postID = req.params.id;
+    const { title, content, tags} = req.body;
+    
+    try {
+        const updatedPost = await Post.findByIdAndUpdate(postID, {
+            title,
+            content,
+            tags
+        }, {new: true});
+
+
+         if (!updatedPost) {
+        return res.status(404).json({message: 'Post not found'})
+        }
+
+        res.status(200).json({message: 'Post updated successfully', post: updatedPost})
+
+        }catch (err) {
+        res.status(500).json({error: 'Failed to edit post', details: err.message
+        })
+    }
+}

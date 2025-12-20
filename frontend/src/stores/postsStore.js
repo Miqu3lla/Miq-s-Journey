@@ -75,6 +75,38 @@ const viewPosts = async() => {
         loading.value = false
     }
 }
+
+const editPost = async ({postID, title, content, tags}) => {
+    loading.value = true
+    error.value = null
+
+    try {
+        const response = await axios.put(`http://localhost:4000/api/post/edit/${postID}`, {
+            title,
+            content,
+            tags
+        })
+        // Update the post in the posts array
+        const index = posts.value.findIndex(post => post._id === postID)
+        if (index !== -1) {
+            posts.value[index] = response.data.post
+        }
+
+        return {
+            success: true,
+            message: response.data.message
+        }
+
+    }catch (err) {
+        error.value = err.response?.data?.message || "An error occurred while editing the post."
+        return {
+            success: false,
+            message: error.value
+        }
+    }finally {
+        loading.value = false
+    }
+}
 return {
     posts,
     error,
@@ -84,7 +116,8 @@ return {
 
     //actions
     createPost,
-    viewPosts
+    viewPosts,
+    editPost
 }
 })
 
