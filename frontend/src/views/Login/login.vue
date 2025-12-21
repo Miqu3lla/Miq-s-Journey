@@ -87,7 +87,7 @@ const handleGuestLogin = async () => {
                         <button type="submit" class = "bg-indigo-700 text-white rounded-md p-3 mt-6 hover:bg-indigo-600 transition-colors ">Sign in to your Space</button>
                     </form>
                     <div class="flex justify-center" @click="handleGuestLogin">
-                            <h1 class="text-indigo-900 font-sans">Sign in as Guest!</h1>
+                            <h1 class="text-indigo-900 font-sans cursor-pointer">Sign in as Guest!</h1>
                         </div>
                 </div>
             </div>

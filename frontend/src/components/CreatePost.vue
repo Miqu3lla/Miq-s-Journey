@@ -51,10 +51,10 @@ const props = defineProps({
 </script>
 
 <template>
-    <div :class="props.isDark ? 'bg-[#1e293b] text-white border border-gray-500 rounded-xl shadow-md' : 'bg-white text-black  rounded-xl shadow-lg'"
+    <div :class="props.isDark ? 'bg-[#1e293b] text-white border border-gray-500 rounded-3xl shadow-md' : 'bg-white text-black  rounded-3xl shadow-lg'"
         class = "w-full max-w-4xl ">
         <div class = "ml-6 pt-6 flex gap-3">
-            <Icon icon="mdi:creation" class="h-7 w-7"/>
+            <Icon icon="mdi:creation" class="h-7 w-7 text-indigo-500"/>
             <h1 class ="font-medium text-lg">Create new Post</h1>
         </div>
 
@@ -64,17 +64,17 @@ const props = defineProps({
             <form @submit.prevent="submitPost">
                 <input v-model="title" type="text" placeholder="Post Title..." required="true"
                     :class="props.isDark ? 'input-dark' : 'input-light'"
-                    class="w-full border p-2 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+                    class="w-full border p-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
                 <textarea v-model="content" placeholder="What's on your mind?" required="true"
                     :class="props.isDark ? 'input-dark' : 'input-light'"
-                    class="w-full border p-2 rounded-md h-30 mb-4 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    class="w-full border p-2 rounded-lg h-30 mb-4 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
                 <input v-model="tag" type="text" placeholder="Tags (comma separated)..." 
                     :class="props.isDark ? 'input-dark' : 'input-light'"
-                    class="w-full border p-2 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+                    class="w-full border p-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
                 <div class='flex justify-end'>
                     <button type="submit" 
                         :class="props.isDark ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-indigo-600 hover:bg-indigo-700'"
-                        class="px-6 py-2 rounded-md text-white font-medium cursor-pointer transition-colors">Publish Post</button>
+                        class="px-6 py-2 rounded-lg text-white font-medium cursor-pointer transition-colors">Publish Post</button>
                 </div>
             </form>
         </div>

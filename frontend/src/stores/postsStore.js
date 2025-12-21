@@ -9,8 +9,13 @@ export const usePostStore = defineStore('posts',() => {
 const posts = ref([]) // Array to store all posts
 const error = ref(null) // Error message storage
 const loading = ref(false) // Loading state for async operations
+const isGrid = ref(false) // View mode state
 
 // Getters (none currently defined)
+
+const isGridView = () => {
+    isGrid.value = !isGrid.value
+}
 
 // Actionss 
 // Create a new post
@@ -137,6 +142,7 @@ return {
     posts,
     error,
     loading,
+    isGrid,
 
     //getters
 
@@ -144,7 +150,9 @@ return {
     createPost,
     viewPosts,
     editPost,
-    deletePost
+    deletePost,
+    isGridView,
+    
 }
 })
 

@@ -5,15 +5,19 @@ import { Icon } from '@iconify/vue';
 import { onMounted, ref, } from 'vue';
 import CreatePost from '@/components/CreatePost.vue';
 import Posts from '@/components/Posts.vue';
+import { useToast } from 'vue-toastification';
 const authStore = useAuthStore();
 const PostStore = usePostStore();
-
+const Toast = useToast();
 const isDark = ref(localStorage.getItem('isDarkMode') === 'true');
+
+
 
 const toggleDarkMode = () => {
     isDark.value = !isDark.value;
     localStorage.setItem('isDarkMode', isDark.value);
 }
+
 const query = ref('');
 
 const searchPost = () => {
@@ -25,12 +29,15 @@ const searchPost = () => {
     }
 
     PostStore.posts = PostStore.posts.filter(post => 
-        post.title.toLowerCase().includes(search) 
+        post.title.toLowerCase().includes(search) ||
+        post.content.toLowerCase().includes(search)
     );
 }
 
 const logout = () => {
     authStore.logout();
+    Toast.success('You have been logged out successfully.');
+
 }
 
 
@@ -48,7 +55,7 @@ const logout = () => {
                 </div>
                 <div class = "flex flex-col justify-center hidden sm:hidden md:hidden lg:flex xl:flex">
                     <h1 class="text-xl font-semibold ml-2">Miq's Journey</h1>
-                    <h1 :class="isDark ? 'text-gray-400' : 'text-gray-500'" class="text-md font-medium ml-2"> Document Your Growth</h1>
+                    <h1 :class="isDark ? 'text-gray-400' : 'text-gray-500'" class="text-md font-medium ml-2"> Your own Personal Space</h1>
                 </div>
             </div>
             <div class = 'md:block flex lg:hidden xl:hidden'>
@@ -67,14 +74,8 @@ const logout = () => {
                         class="pl-10 pr-4 py-2 w-80 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     />
                 </div>
-                <!-- List View Button -->
-                <div :class="isDark ? 'text-gray-300 bg-[#334155] hover:bg-[#475569]' : 'text-gray-600 bg-gray-100 hover:bg-indigo-500'" 
-                    class="h-10 w-10 flex items-center justify-center rounded-md hover:text-white transition-colors cursor-pointer"
-                    title="List View">
-                    <Icon icon="mdi:format-list-bulleted" class="h-6 w-6"/> 
-                </div>
                 <!-- Grid View Button -->
-                <div :class="isDark ? 'text-gray-300 bg-[#334155] hover:bg-[#475569]' : 'text-gray-600 bg-gray-100 hover:bg-indigo-500'"
+                <div @click="PostStore.isGridView":class="isDark ? 'text-gray-300 bg-[#334155] hover:bg-[#475569]' : 'text-gray-600 bg-gray-100 hover:bg-indigo-500'"
                     class="h-10 w-10 flex items-center justify-center rounded-md hover:text-white transition-colors cursor-pointer"
                     title="Grid View">
                     <Icon icon="mdi:view-grid" class="h-6 w-6"/> 
@@ -106,8 +107,8 @@ const logout = () => {
         <div :class="authStore.isOwner ? 'block' : 'hidden' " class = "pt-15 px-30">
         <CreatePost :isDark="isDark" />
         </div>
-        <div class = "pt-15 px-30">
-            <Posts :isDark="isDark"/>
+        <div class = "pt-15 px-30 grid">
+            <Posts :isDark="isDark", />
         </div>
      </div>
     
