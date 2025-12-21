@@ -100,7 +100,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="w-full max-w-4xl ":class="postStore.isGrid ? 'grid grid-cols-2 gap-1' : 'flex flex-col'" >
+    <div class="w-full max-w-4xl transition-all duration-500 ease-in-out":class="postStore.isGrid ? 'grid grid-cols-2 gap-1' : 'flex flex-col'" >
         <div v-for="post in sortedPosts" :key="post.id" :class="props.isDark ? 'bg-[#1e293b] text-white border border-gray-500 rounded-3xl shadow-md' : 'bg-white text-black  rounded-lg shadow-md hover:shadow-3xl hover:scale-101 transition-transform'" class= "mb-4 p-4 pl-5 w-full hover:border-white transition-colors">
             
             <!-- View Mode -->

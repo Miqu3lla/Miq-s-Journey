@@ -48,7 +48,8 @@ const logout = () => {
 
 <template>
     <nav>
-        <div  :class="isDark ? ' flex bg-[#1e293b] shadow-md justify-between text-white' : 'flex bg-white shadow-md justify-between text-black'">
+        <div  :class="isDark ? ' flex bg-[#1e293b] shadow-md justify-between text-white' : 'flex bg-white shadow-md justify-between text-black'" 
+        class="fixed top-0 left-0 w-full h-16 items-center px-6 z-10">
             <div class="flex">
                 <div class ="p-2">
                     <Icon icon="mdi:alpha-m" class="h-12 w-12 bg-indigo-600 rounded-md text-white p-1 ml-5"/>
