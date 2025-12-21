@@ -55,7 +55,7 @@ const deletePost = async (postID) => {
     try {
         const response = await postStore.deletePost(postID);
         if (response.success) {
-            toast.success('Post deleted successfully!');
+            toast.error('Post deleted successfully!');
         } else {
             toast.error('Failed to delete post: ' + response.message);
         }
@@ -100,8 +100,22 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="w-full max-w-4xl transition-all duration-500 ease-in-out":class="postStore.isGrid ? 'grid grid-cols-2 gap-1' : 'flex flex-col'" >
-        <div v-for="post in sortedPosts" :key="post.id" :class="props.isDark ? 'bg-[#1e293b] text-white border border-gray-500 rounded-3xl shadow-md' : 'bg-white text-black  rounded-lg shadow-md hover:shadow-3xl hover:scale-101 transition-transform'" class= "mb-4 p-4 pl-5 w-full hover:border-white transition-colors">
+    <TransitionGroup
+        name="layout"
+        tag="div"
+        class="w-full max-w-4xl"
+        :class="postStore.isGrid ? 'grid grid-cols-2 gap-4' : 'flex flex-col'">
+        
+        <div 
+            v-for="post in sortedPosts" 
+            :key="post._id"
+            class="mb-4 p-4 pl-5 w-full"
+            :class="[
+                props.isDark 
+                    ? 'bg-[#1e293b] text-white border border-gray-500 rounded-3xl shadow-md' 
+                    : 'bg-white text-black rounded-lg shadow-md hover:shadow-3xl hover:scale-105',
+                'hover:border-white'
+            ]">
             
             <!-- View Mode -->
             <div v-if="editingPostId !== post._id">
@@ -148,8 +162,46 @@ onMounted(async () => {
                     </div>
                 </form>
             </div>
-            
         </div>
-    </div>
-
+    </TransitionGroup>
 </template>
+
+<style scoped>
+/* Animate items when they move to new positions */
+.layout-move {
+    transition: all 0.5s ease-in-out;
+}
+
+/* Animate items entering */
+.layout-enter-from {
+    opacity: 0;
+    transform: scale(0.8);
+}
+.layout-enter-active {
+    transition: all 0.5s ease-out;
+}
+
+.layout-enter-to {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+.layout.leave-from {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Smooth transition for layout changes */
+.layout-leave-active {
+    transition: all 0.5s ease-in;
+    position: absolute;
+   
+}
+
+.layout-leave-to {
+    opacity: 0;
+    transform: scale(0.8);
+    
+}
+</style>
