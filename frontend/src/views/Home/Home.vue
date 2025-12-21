@@ -40,9 +40,6 @@ const logout = () => {
 
 }
 
-
-
-
 </script>
 
 
@@ -108,7 +105,7 @@ const logout = () => {
         <div :class="authStore.isOwner ? 'block' : 'hidden' " class = "pt-30 px-30">
         <CreatePost :isDark="isDark" />
         </div>
-        <div class = "pt-15 px-30 grid">
+        <div class = "px-30 grid" :class="authStore.isGuest ? 'pt-30' : 'pt-15'">
             <Posts :isDark="isDark", />
         </div>
      </div>

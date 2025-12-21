@@ -64,6 +64,12 @@ const deletePost = async (postID) => {
     }
 }
 
+const confirmDelete = (postID) => {
+    if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+        deletePost(postID);
+    }
+}
+
 // Computed property to sort posts by creation date (newest first)
 const sortedPosts = computed(() => {
     return [...postStore.posts].sort((a, b) => 
@@ -123,7 +129,7 @@ onMounted(async () => {
                     <h1>{{ post.title }}</h1>
                     <div class="flex gap-3">
                         <Icon @click="startEditing(post)" icon="mdi:pencil" class="h-5 w-5 text-gray-400 hover:text-indigo-500 cursor-pointer transition-colors" title="Edit post"/>
-                        <Icon @click= "deletePost(post._id)"icon="mdi:delete" class="h-5 w-5 text-gray-400 hover:text-red-500 cursor-pointer transition-colors" title="Delete post"/>
+                        <Icon @click= "confirmDelete(post._id)"icon="mdi:delete" class="h-5 w-5 text-gray-400 hover:text-red-500 cursor-pointer transition-colors" title="Delete post"/>
                     </div>
                 </div>
                 <div class ='flex text-gray-500 mb-5'>
