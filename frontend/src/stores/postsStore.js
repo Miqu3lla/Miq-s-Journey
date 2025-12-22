@@ -13,7 +13,7 @@ const loading = ref(false) // Loading state for async operations
 const isGrid = ref(false) // View mode state
 const isDark = ref(localStorage.getItem('isDarkMode') === 'true')
 
-// Getters (none currently defined)
+// Getters 
 
 const isGridView = computed(() => {
     isGrid.value = !isGrid.value

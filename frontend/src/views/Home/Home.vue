@@ -10,15 +10,8 @@ import Navbar from '@/components/Navbar.vue';
 const authStore = useAuthStore();
 const postStore = usePostStore();
 
-const isDark = ref(localStorage.getItem('isDarkMode') === 'true');
-
-
-
 </script>
-
-
 <template>
-    
     <div :class="postStore.isDark ? 'bg-indigo-900' : 'bg-white' "  class = "min-h-screen w-full ">
         <div :class="authStore.isOwner ? 'block' : 'hidden' " class = "pt-30 px-30">
         <CreatePost />

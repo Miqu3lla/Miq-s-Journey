@@ -3,9 +3,10 @@ import { usePostStore } from '@/stores/postsStore';
 import { ref, computed, onMounted} from 'vue';
 import { useToast } from 'vue-toastification';
 import { Icon } from '@iconify/vue';
-
+import { useAuthStore } from '@/stores/authStore';
 // Initialize stores and utilities
 const postStore = usePostStore();
+const authStore = useAuthStore();
 const toast = useToast();
 
 // Track which post is being edited
@@ -119,7 +120,7 @@ onMounted(async () => {
             <div v-if="editingPostId !== post._id">
                 <div class="flex justify-between items-center mb-2">
                     <h1>{{ post.title }}</h1>
-                    <div class="flex gap-3">
+                    <div v-if="authStore.isOwner" class="flex gap-3">
                         <Icon @click="startEditing(post)" icon="mdi:pencil" class="h-5 w-5 text-gray-400 hover:text-indigo-500 cursor-pointer transition-colors" title="Edit post"/>
                         <Icon @click= "confirmDelete(post._id)"icon="mdi:delete" class="h-5 w-5 text-gray-400 hover:text-red-500 cursor-pointer transition-colors" title="Delete post"/>
                     </div>

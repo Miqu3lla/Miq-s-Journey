@@ -5,6 +5,7 @@ import { Icon } from '@iconify/vue';
 import { onMounted, ref, defineProps } from 'vue';
 import { useToast } from 'vue-toastification';
 import Posts from './Posts.vue';
+import router from '@/router';
 
 
 const authStore = useAuthStore();
@@ -38,10 +39,13 @@ const logout = () => {
 <template>
     <nav>
         <div  :class="PostStore.isDark ? ' flex bg-[#1e293b] shadow-md justify-between text-white' : 'flex bg-white shadow-md justify-between text-black'" 
-        class="fixed top-0 left-0 w-full h-16 items-center px-6 z-50">
+        class="fixed top-0 left-0 right-0 h-16 items-center px-6 z-50 ">
             <div class="flex">
                 <div class ="p-2">
-                    <Icon icon="mdi:alpha-m" class="h-12 w-12 bg-indigo-600 rounded-md text-white p-1 ml-5"/>
+                    <router-link to="/home">
+                        <Icon icon="mdi:alpha-m" class="h-12 w-12 bg-indigo-600 rounded-md text-white p-1 ml-5"/>
+                    </router-link>
+                        
                 </div>
                 <div class = "flex flex-col justify-center hidden sm:hidden md:hidden lg:flex xl:flex">
                     <h1 class="text-xl font-semibold ml-2">Miq's Journey</h1>
@@ -79,13 +83,15 @@ const logout = () => {
                 </div>
 
                 <!-- Dashboard Button -->
-                <button :class="PostStore.isDark ? 'bg-transparent border border-gray-600 hover:bg-[#334155]' : 'bg-indigo-600 hover:bg-indigo-500'"
-                    class="px-6 py-2 text-white rounded-full transition-colors font-medium">
-                    Dashboard
-                </button>
+                <router-link to="/Dashboard">
+                <button v-if="authStore.isOwner":class="PostStore.isDark ? 'bg-transparent border border-gray-600 hover:bg-[#334155]' : 'bg-indigo-600 hover:bg-indigo-500'"
+                    class="px-9 py-2 text-white rounded-full transition-colors font-medium">
+                        Dashboard
+                    </button>
+                    </router-link>
                 <!-- Logout Button -->
                 <div @click="logout" title="Logout" 
-                    :class="isDark ? 'text-gray-300 bg-transparent hover:bg-red-500' : 'text-gray-600 bg-gray-100 hover:bg-red-400'"
+                    :class="PostStore.isDark ? 'text-gray-300 bg-transparent hover:bg-red-500' : 'text-gray-600 bg-gray-100 hover:bg-red-400'"
                     class="h-10 w-10 flex items-center justify-center rounded-md hover:text-white transition-colors cursor-pointer">
                     <Icon icon="mdi:logout" class="h-6 w-6"/> 
                 </div>

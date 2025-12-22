@@ -7,3 +7,12 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif;
 }
+
+*::-webkit-scrollbar {
+    display: none
+}
+
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

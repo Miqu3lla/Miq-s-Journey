@@ -8,17 +8,26 @@ const router = createRouter({
       path: '/',
       redirect: '/login' // Redirect root to login page
     },
+
     {
       path: '/login',
       name: 'Login',
       component: () => import('../views/Login/login.vue'), // Lazy load component
       meta: { requiresAuth: true } // Only accessible if authenticated
     },
+
     {
       path: '/home',
       name: 'Home',
       component: () => import('../views/Home/Home.vue'),
       meta: { guest: true } // Requires user to be logged in
+    },
+
+    {
+      path: '/Dashboard',
+      name: 'Dashboard',
+      component: () => import('../views/Dashboard/Dashboard.vue'),
+      meta: { guest: false} // Requires user to be logged in
     }
   ],
 })
@@ -31,6 +40,9 @@ router.beforeEach((to, from, next) =>{
  // If route requires auth and user is logged in, redirect to home
  if (to.meta.requiresAuth && isAuthenticated) {
     next('/home')
+ }
+ if (!to.meta.guest) {
+  next()
  }
  // If route is for guests only and user is not logged in, redirect to login
 else if (to.meta.guest && !isAuthenticated) {
