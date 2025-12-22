@@ -83,15 +83,15 @@ const logout = () => {
                 </div>
 
                 <!-- Dashboard Button -->
-                <router-link to="/Dashboard">
-                <button v-if="authStore.isOwner":class="PostStore.isDark ? 'bg-transparent border border-gray-600 hover:bg-[#334155]' : 'bg-indigo-600 hover:bg-indigo-500'"
+                <router-link v-if="authStore.isOwner" to="/Dashboard">
+                <button :class="PostStore.isDark ? 'bg-transparent border border-gray-600 hover:bg-[#334155]' : 'bg-indigo-600 hover:bg-indigo-500'"
                     class="px-9 py-2 text-white rounded-full transition-colors font-medium">
                         Dashboard
                     </button>
                     </router-link>
                 <!-- Logout Button -->
                 <div @click="logout" title="Logout" 
-                    :class="PostStore.isDark ? 'text-gray-300 bg-transparent hover:bg-red-500' : 'text-gray-600 bg-gray-100 hover:bg-red-400'"
+                    :class="PostStore.isDark ? 'text-gray-300 bg-[#334155] hover:bg-red-500' : 'text-gray-600 bg-gray-100 hover:bg-red-400'"
                     class="h-10 w-10 flex items-center justify-center rounded-md hover:text-white transition-colors cursor-pointer">
                     <Icon icon="mdi:logout" class="h-6 w-6"/> 
                 </div>
