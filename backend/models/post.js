@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 const postSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true // Post title is mandatory
     },
     content: {
         type: String,

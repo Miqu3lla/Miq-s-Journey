@@ -19,7 +19,7 @@ export const createPost = async (req, res) => {
             tags,
             author: authorID
         })
-
+        
         // Save to database
         await newPost.save();
         

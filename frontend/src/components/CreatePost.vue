@@ -12,6 +12,8 @@ const title = ref('');
 const content = ref('');
 const tag = ref('');
 
+const tagArray = tag.value.trim() ? tag.value.split(',').map(t => t.trim()).filter(t => t !== "") : [];
+
 // Handle post submission
 const submitPost = async () => {
     try {
@@ -19,9 +21,9 @@ const submitPost = async () => {
         const result = await postStore.createPost(
             title.value,
             content.value,
-            tag.value.split(',').map(t => t.trim())
+            tagArray
         );
-        
+
         // Show success or error notification
         if (result.success) {
             toast.success('Post created successfully!');
@@ -53,7 +55,7 @@ const submitPost = async () => {
 
         <div class = "mt-6 p-6">
             <form @submit.prevent="submitPost">
-                <input v-model="title" type="text" placeholder="Post Title..." required="true"
+                <input v-model="title" type="text" placeholder="Post Title..." 
                     :class="postStore.isDark ? 'input-dark' : 'input-light'"
                     class="w-full border p-2 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
                 <textarea v-model="content" placeholder="What's on your mind?" required="true"

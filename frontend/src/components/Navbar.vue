@@ -40,7 +40,7 @@ const logout = () => {
     <nav>
         <div  :class="PostStore.isDark ? ' flex bg-[#1e293b] shadow-md justify-between text-white' : 'flex bg-white shadow-md justify-between text-black'" 
         class="fixed top-0 left-0 right-0 h-16 items-center px-6 z-50 ">
-            <div class="flex">
+            <div class="flex ml-10">
                 <div class ="p-2">
                     <router-link to="/home">
                         <Icon icon="mdi:alpha-m" class="h-12 w-12 bg-indigo-600 rounded-md text-white p-1 ml-5"/>

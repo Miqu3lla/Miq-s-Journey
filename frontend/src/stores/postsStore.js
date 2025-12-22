@@ -38,8 +38,10 @@ const createPost = async(title, content, tags) => {
             tags,
         })
 
+
         // Add new post to the beginning of posts array
         posts.value.unshift(response.data.post)
+        
         
         // Return success status
         return {
