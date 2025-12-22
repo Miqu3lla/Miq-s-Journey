@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref,computed } from "vue";
 import axios from "axios";
 import { useAuthStore } from "./authStore";
+
 
 // Pinia store for managing posts state and actions
 export const usePostStore = defineStore('posts',() => {
@@ -10,12 +11,18 @@ const posts = ref([]) // Array to store all posts
 const error = ref(null) // Error message storage
 const loading = ref(false) // Loading state for async operations
 const isGrid = ref(false) // View mode state
+const isDark = ref(localStorage.getItem('isDarkMode') === 'true')
 
 // Getters (none currently defined)
 
-const isGridView = () => {
+const isGridView = computed(() => {
     isGrid.value = !isGrid.value
-}
+})
+
+const isDarkMode = computed(() => {
+    isDark.value = !isDark.value
+    localStorage.setItem('isDarkMode', isDark.value)
+})
 
 // Actionss 
 // Create a new post
@@ -143,15 +150,19 @@ return {
     error,
     loading,
     isGrid,
+    isDark,
 
     //getters
+    isGridView,
+    isDarkMode,
 
     //actions
     createPost,
     viewPosts,
     editPost,
     deletePost,
-    isGridView,
+    
+    
     
 }
 })

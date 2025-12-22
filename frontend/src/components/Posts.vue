@@ -87,14 +87,6 @@ const formatDate = (dateString) => {
     })
 }
 
-// Props received from parent component
-const props = defineProps({
-    isDark: {
-        type: Boolean,
-        required: true, // Dark mode toggle state
-    }
-});
-
 // Fetch posts when component is mounted
 onMounted(async () => {
     try {
@@ -117,7 +109,7 @@ onMounted(async () => {
             :key="post._id"
             class="mb-4 p-4 pl-5 w-full"
             :class="[
-                props.isDark 
+                postStore.isDark 
                     ? 'bg-[#1e293b] text-white border border-gray-500 rounded-3xl shadow-md' 
                     : 'bg-white text-black rounded-lg shadow-md hover:shadow-3xl hover:scale-105',
                 'hover:border-white'
@@ -148,22 +140,22 @@ onMounted(async () => {
                     <h1 class="font-medium text-lg">Edit Post</h1>
                     <Icon @click="cancelEdit" icon="mdi:close" class="h-6 w-6 text-gray-400 hover:text-red-500 cursor-pointer transition-colors" title="Cancel"/>
                 </div>
-                <form @submit.prevent="editPost(post._id)">
+                    <form @submit.prevent="editPost(post._id)">
                     <input v-model="newTitle" type="text" placeholder="Post Title..."
-                        :class="props.isDark ? 'bg-[#334155] border-gray-600 text-white' : 'bg-white border-gray-300'"
+                        :class="postStore.isDark ? 'bg-[#334155] border-gray-600 text-white' : 'bg-white border-gray-300'"
                         class="w-full border p-2 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
                     <textarea v-model="newContent" placeholder="What's on your mind?"
-                        :class="props.isDark ? 'bg-[#334155] border-gray-600 text-white' : 'bg-white border-gray-300'"
+                        :class="postStore.isDark ? 'bg-[#334155] border-gray-600 text-white' : 'bg-white border-gray-300'"
                         class="w-full border p-2 rounded-md h-30 mb-4 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
                     <input v-model="newTags" type="text" placeholder="Tags (comma separated)..."
-                        :class="props.isDark ? 'bg-[#334155] border-gray-600 text-white' : 'bg-white border-gray-300'"
+                        :class="postStore.isDark ? 'bg-[#334155] border-gray-600 text-white' : 'bg-white border-gray-300'"
                         class="w-full border p-2 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
                     <div class='flex justify-end gap-3'>
                         <button type="button" @click="cancelEdit"
-                            :class="props.isDark ? 'bg-gray-600 hover:bg-gray-500' : 'bg-gray-300 hover:bg-gray-400'"
+                            :class="postStore.isDark ? 'bg-gray-600 hover:bg-gray-500' : 'bg-gray-300 hover:bg-gray-400'"
                             class="px-6 py-2 rounded-md text-white font-medium cursor-pointer transition-colors">Cancel</button>
                         <button type="submit"
-                            :class="props.isDark ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-indigo-600 hover:bg-indigo-700'"
+                            :class="postStore.isDark ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-indigo-600 hover:bg-indigo-700'"
                             class="px-6 py-2 rounded-md text-white font-medium cursor-pointer transition-colors">Save Changes</button>
                     </div>
                 </form>
