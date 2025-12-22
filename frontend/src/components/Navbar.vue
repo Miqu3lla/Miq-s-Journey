@@ -67,15 +67,15 @@ const logout = () => {
                 <!-- Grid View Button -->
                 <div @click="PostStore.isGridView":class="PostStore.isDark ? 'text-gray-300 bg-[#334155] hover:bg-[#475569]' : 'text-gray-600 bg-gray-100 hover:bg-indigo-500'"
                     class="h-10 w-10 flex items-center justify-center rounded-md hover:text-white transition-colors cursor-pointer"
-                    title="Grid View">
-                    <Icon icon="mdi:view-grid" class="h-6 w-6"/> 
+                    :title="PostStore.isGrid ? 'Switch to Grid View' : 'Switch to List View'">
+                    <Icon :icon= "PostStore.isGrid ? 'mdi:view-list' : 'mdi:view-grid'" class="h-6 w-6"/> 
                 </div>
                 <!-- Light/Dark Mode Toggle -->
                 <div @click ="PostStore.isDarkMode" 
-                    :class="isDark ? 'text-yellow-300 bg-[#334155] hover:bg-indigo-500' : 'text-gray-600 bg-yellow-100 hover:bg-yellow-400'"
+                    :class="PostStore.isDark ? 'text-yellow-300 bg-[#334155] hover:bg-indigo-500' : 'text-gray-600 bg-yellow-100 hover:bg-yellow-400'"
                     class="h-10 w-10 flex items-center justify-center rounded-md hover:text-white transition-colors cursor-pointer"
                     title="Toggle Theme">
-                    <Icon :icon="isDark ? 'mdi:moon-waning-crescent' : 'mdi:white-balance-sunny'" class="h-6 w-6"/> 
+                    <Icon :icon="PostStore.isDark ? 'mdi:moon-waning-crescent' : 'mdi:white-balance-sunny'" class="h-6 w-6"/> 
                 </div>
 
                 <!-- Dashboard Button -->
