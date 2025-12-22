@@ -4,6 +4,7 @@ import { usePostStore } from '@/stores/postsStore';
 import { Icon } from '@iconify/vue';
 import { onMounted, ref, defineProps } from 'vue';
 import { useToast } from 'vue-toastification';
+import Posts from './Posts.vue';
 
 
 const authStore = useAuthStore();
@@ -53,7 +54,7 @@ const logout = () => {
             <div class = 'flex mr-5 items-center gap-4 hidden lg:flex xl:flex'>
                 <!-- Search Bar -->
                 <div class="relative">
-                    <Icon icon="mdi:magnify" :class="isDark ? 'text-gray-400' : 'text-gray-400'" class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5"/>
+                    <Icon icon="mdi:magnify" :class="PostStore.isDark ? 'text-gray-400' : 'text-gray-400'" class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5"/>
                     <input 
                         v-model="query"
                         @input="searchPost()"
@@ -64,7 +65,7 @@ const logout = () => {
                     />
                 </div>
                 <!-- Grid View Button -->
-                <div @click="PostStore.isGridView":class="isDark ? 'text-gray-300 bg-[#334155] hover:bg-[#475569]' : 'text-gray-600 bg-gray-100 hover:bg-indigo-500'"
+                <div @click="PostStore.isGridView":class="PostStore.isDark ? 'text-gray-300 bg-[#334155] hover:bg-[#475569]' : 'text-gray-600 bg-gray-100 hover:bg-indigo-500'"
                     class="h-10 w-10 flex items-center justify-center rounded-md hover:text-white transition-colors cursor-pointer"
                     title="Grid View">
                     <Icon icon="mdi:view-grid" class="h-6 w-6"/> 
@@ -78,7 +79,7 @@ const logout = () => {
                 </div>
 
                 <!-- Dashboard Button -->
-                <button :class="isDark ? 'bg-transparent border border-gray-600 hover:bg-[#334155]' : 'bg-indigo-600 hover:bg-indigo-500'"
+                <button :class="PostStore.isDark ? 'bg-transparent border border-gray-600 hover:bg-[#334155]' : 'bg-indigo-600 hover:bg-indigo-500'"
                     class="px-6 py-2 text-white rounded-full transition-colors font-medium">
                     Dashboard
                 </button>

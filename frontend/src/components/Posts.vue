@@ -107,12 +107,12 @@ onMounted(async () => {
         <div 
             v-for="post in sortedPosts" 
             :key="post._id"
-            class="mb-4 p-4 pl-5 w-full"
+            class="mb-4 p-4 pl-5 w-full hover:scale-101 transition-transform"
             :class="[
                 postStore.isDark 
                     ? 'bg-[#1e293b] text-white border border-gray-500 rounded-3xl shadow-md' 
                     : 'bg-white text-black rounded-lg shadow-md hover:shadow-3xl hover:scale-105',
-                'hover:border-white'
+                    'hover:border-white'
             ]">
             
             <!-- View Mode -->
@@ -130,7 +130,7 @@ onMounted(async () => {
                 </div>
                 <h1 class = 'mb-10'>{{ post.content }}</h1>
                 <div class = 'flex justify-start gap-3 text-indigo-400 '>
-                    <h1 v-for="tag in post.tags.slice(0,99)" :class="isDark? 'bg-[#0f172a]' : 'bg-gray-100'" class="rounded-md p-2">#{{ tag }}</h1>
+                    <h1 v-for="tag in post.tags.slice(0,99)" :class="postStore.isDark? 'bg-[#0f172a]' : 'bg-gray-100'" class="rounded-md p-2">#{{ tag }}</h1>
                 </div>
             </div>
 
