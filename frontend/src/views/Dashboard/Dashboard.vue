@@ -1,6 +1,6 @@
 <script setup>
 import { usePostStore } from '@/stores/postsStore';
-import { ref,onMounted } from 'vue';
+import { ref,watch, onMounted} from 'vue';
 import { Icon } from '@iconify/vue';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -8,9 +8,9 @@ const PostStore = usePostStore();
 const AuthStore = useAuthStore();
 
 
-const postCount = PostStore.PostCount;
-
-
+onMounted(() => {
+    PostStore.viewPosts();
+})
 
 
 </script>
@@ -26,7 +26,8 @@ const postCount = PostStore.PostCount;
                     <Icon icon="mdi:post-outline" class="h-10 w-10 text-indigo-500"/>
                     <div>
                         <h2 class = "text-xl font-medium">Total Posts</h2>
-                        <p class = "text-3xl font-bold">{{ postCount }}</p> 
+                        <p class = "text-3xl font-bold">{{ PostStore.PostCount}}</p> 
+                        <h2 class = "text-md font-medium mt-2">Posts created today: {{ PostStore.TodayPostCount.length }}</h2>
                     </div>
                 </div>
             </div> 

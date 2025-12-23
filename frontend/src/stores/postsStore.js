@@ -26,6 +26,16 @@ const isDarkMode = computed(() => {
 
 const PostCount = computed(() => posts.value.length)
 
+const TodayPostCount = computed(() => {
+    const today = new Date();
+    return posts.value.filter(post => {
+        const postDate = new Date(post.createdAt);
+        return postDate.getDate() === today.getDate() &&
+        postDate.getMonth() === today.getMonth() 
+    })
+    
+})
+
 // Actionss 
 // Create a new post
 const createPost = async(title, content, tags) => {
@@ -160,6 +170,7 @@ return {
     isGridView,
     isDarkMode,
     PostCount,
+    TodayPostCount,
 
     //actions
     createPost,
