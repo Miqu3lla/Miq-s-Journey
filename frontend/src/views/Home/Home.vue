@@ -1,12 +1,9 @@
 <script setup>
 import { useAuthStore } from '@/stores/authStore';
 import { usePostStore } from '@/stores/postsStore';
-import { Icon } from '@iconify/vue';
-import { onMounted, ref, } from 'vue';
 import CreatePost from '@/components/CreatePost.vue';
 import Posts from '@/components/Posts.vue';
-import { useToast } from 'vue-toastification';
-import Navbar from '@/components/Navbar.vue';
+
 const authStore = useAuthStore();
 const postStore = usePostStore();
 

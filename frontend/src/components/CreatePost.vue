@@ -12,11 +12,11 @@ const title = ref('');
 const content = ref('');
 const tag = ref('');
 
-const tagArray = tag.value.trim() ? tag.value.split(',').map(t => t.trim()).filter(t => t !== "") : [];
 
 // Handle post submission
 const submitPost = async () => {
     try {
+        const tagArray = tag.value.trim() ? tag.value.split(',').map(t => t.trim()).filter(t => t !== "") : [];
         // Split tags by comma and trim whitespace
         const result = await postStore.createPost(
             title.value,

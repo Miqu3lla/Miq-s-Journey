@@ -24,6 +24,8 @@ const isDarkMode = computed(() => {
     localStorage.setItem('isDarkMode', isDark.value)
 })
 
+const PostCount = computed(() => posts.value.length)
+
 // Actionss 
 // Create a new post
 const createPost = async(title, content, tags) => {
@@ -157,6 +159,7 @@ return {
     //getters
     isGridView,
     isDarkMode,
+    PostCount,
 
     //actions
     createPost,
