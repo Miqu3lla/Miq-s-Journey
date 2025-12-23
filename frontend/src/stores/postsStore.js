@@ -30,11 +30,17 @@ const TodayPostCount = computed(() => {
     const today = new Date();
     return posts.value.filter(post => {
         const postDate = new Date(post.createdAt);
-        return postDate.getDate() === today.getDate() &&
-        postDate.getMonth() === today.getMonth() 
-    })
-    
+        return postDate.getDate() === today.getDate()
+    })  
 })
+const MonthlyPostCount = computed(() => {
+    const today = new Date();
+    return posts.value.filter(post => {
+        const postDate = new Date(post.createdAt);
+        return postDate.getMonth() === today.getMonth()
+    })
+})
+
 
 // Actionss 
 // Create a new post
@@ -171,6 +177,7 @@ return {
     isDarkMode,
     PostCount,
     TodayPostCount,
+    MonthlyPostCount,
 
     //actions
     createPost,

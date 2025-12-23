@@ -28,6 +28,7 @@ onMounted(() => {
                         <h2 class = "text-xl font-medium">Total Posts</h2>
                         <p class = "text-3xl font-bold">{{ PostStore.PostCount}}</p> 
                         <h2 class = "text-md font-medium mt-2">Posts created today: {{ PostStore.TodayPostCount.length }}</h2>
+                        <p class = "text-sm text-gray-400">Posts created this Month: {{ PostStore.MonthlyPostCount.length }}</p>
                     </div>
                 </div>
             </div> 
