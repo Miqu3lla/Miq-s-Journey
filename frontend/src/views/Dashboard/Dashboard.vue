@@ -45,7 +45,7 @@ onMounted(() => {
                 <DashboardCard 
                     :background-color="PostStore.isDark ?'bg-gradient-to-br from-teal-900 to-teal-800' : 'shadow-md bg-white'"
                     title="Unique Tags"
-                    :value="0"
+                    :value="PostStore.UniqueTagCount"
                     subtitle="Categories created"
                     icon="mdi:tag-multiple-outline"
                     icon-color="text-teal-400"/>

@@ -41,6 +41,14 @@ const MonthlyPostCount = computed(() => {
     })
 })
 
+const UniqueTagCount = computed(() => {
+    const tagsSet = new Set();
+    posts.value.forEach(post => {
+        post.tags.forEach(tag => tagsSet.add(tag))
+    })
+    return tagsSet.size
+})
+
 
 // Actionss 
 // Create a new post
@@ -178,6 +186,7 @@ return {
     PostCount,
     TodayPostCount,
     MonthlyPostCount,
+    UniqueTagCount,
 
     //actions
     createPost,

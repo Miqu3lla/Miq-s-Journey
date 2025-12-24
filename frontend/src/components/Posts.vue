@@ -130,7 +130,7 @@ onMounted(async () => {
                     <h1>{{ formatDate(post.createdAt) }}</h1>
                 </div>
                 <h1 class = 'mb-10'>{{ post.content }}</h1>
-                <div v-if="post.tags.length === 1 "class = 'flex justify-start gap-3 text-indigo-400 '>
+                <div v-if="post.tags.length >= 1 "class = 'flex justify-start gap-3 text-indigo-400 '>
                     <h1 v-for="tag in post.tags.slice(0,99)" :class="postStore.isDark? 'bg-[#0f172a]' : 'bg-gray-100'" class="rounded-md p-2">#{{ tag }}</h1>
                 </div>
             </div>
