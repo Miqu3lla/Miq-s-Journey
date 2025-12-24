@@ -36,7 +36,7 @@ const props = defineProps({
 
 <template>
 
-    <div :class="[props.backgroundColor, 'rounded-2xl p-4 shadow-xl max-w-sm  hover:shadow-2xl transition-all duration-300']">
+    <div :class="[props.backgroundColor, 'rounded-2xl p-4 shadow-xl max-w-md  hover:shadow-2xl transition-all duration-300']">
         <div class="flex justify-between items-start mb-8">
             <h3 class=" text-base font-normal">{{ props.title }}</h3>
             <Icon :icon="props.icon" :class="props.iconColor" class="h-9 w-9 opacity-80"/>

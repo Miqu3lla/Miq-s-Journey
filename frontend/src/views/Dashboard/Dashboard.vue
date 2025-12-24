@@ -27,19 +27,28 @@ onMounted(() => {
                     <h1 class = "text-gray-800 text-sm"> Overview of your Digital Garden</h1>
                 </div>
             </div>
-            <section class = 'p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1'>
+            <section class = 'p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                 <DashboardCard 
-                    :background-color="PostStore.isDark ? 'bg-gradient-to-br from-indigo-900 to-indigo-800' : 'shadow-sm'"
-                    title="Tite"
-                    value="9"/>
+                    :background-color="PostStore.isDark ? 'bg-gradient-to-br from-blue-900 to-blue-800' : 'shadow-md bg-white'"
+                    title="Total Posts"
+                    :value="PostStore.PostCount"
+                    subtitle="All time"
+                    icon="mdi:file-document-outline"
+                    icon-color="text-blue-400"/>
                 <DashboardCard 
-                    :background-color="PostStore.isDark ? 'bg-gradient-to-br from-indigo-900 to-indigo-800' : 'shadow-sm'"
-                    title="Tite"
-                    value="9"/>
+                    :background-color="PostStore.isDark ? 'bg-gradient-to-br from-purple-900 to-purple-800' : 'shadow-md bg-white'"
+                    title="This Month"
+                    :value="PostStore.PostCount"
+                    subtitle="December 2025"
+                    icon="mdi:calendar-month"
+                    icon-color="text-purple-400"/>
                 <DashboardCard 
-                    :background-color="PostStore.isDark ? 'bg-gradient-to-br from-indigo-900 to-indigo-800' : 'shadow-sm'"
-                    title="Tite"
-                    value="9"/>
+                    :background-color="PostStore.isDark ?'bg-gradient-to-br from-teal-900 to-teal-800' : 'shadow-md bg-white'"
+                    title="Unique Tags"
+                    :value="0"
+                    subtitle="Categories created"
+                    icon="mdi:tag-multiple-outline"
+                    icon-color="text-teal-400"/>
             </section>
         </section>
     </main>
