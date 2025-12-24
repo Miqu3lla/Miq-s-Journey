@@ -169,6 +169,8 @@ onMounted(async () => {
 /* Animate items when they move to new positions */
 .layout-move {
     transition: all 0.5s ease-in-out;
+    
+    
 }
 
 /* Animate items entering */
