@@ -27,9 +27,8 @@ const userSchema = new mongoose.Schema({
 }, {timestamps: true}); // Add createdAt and updatedAt fields
 
 // Pre-save hook: Hash password before saving to database
-userSchema.pre('save', async function(next) {
-    if (!this.isModified('password')) return;
-    
+userSchema.pre('save', async function() {
+    if (!this.isModified('password')) return; // Proceed if password is not modified
     this.password = await bcrypt.hash(this.password, 12); // Hash with salt rounds of 12
 })
 
