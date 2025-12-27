@@ -14,5 +14,10 @@ app.use(cors()); // Enable Cross-Origin Resource Sharing
 app.use('/api/post', postRoutes); // Post-related endpoints
 app.use('/api/user', userRoutes); // User-related endpoints
 
+import fs from 'fs';
+if (!fs.existsSync('uploads')) {
+    fs.mkdirSync('uploads');
+}
+
 export default app;
 
