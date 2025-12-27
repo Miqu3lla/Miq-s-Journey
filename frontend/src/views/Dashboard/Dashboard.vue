@@ -29,14 +29,14 @@ onMounted(() => {
             </div>
             <section class = 'p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                 <DashboardCard 
-                    :background-color="PostStore.isDark ? 'bg-gradient-to-br from-blue-900 to-blue-800' : 'shadow-md bg-white'"
+                    :background-color="PostStore.isDark ? 'bg-gradient-to-br from-[#1e293b] to-blue-900' : 'shadow-md bg-white'"
                     title="Total Posts"
                     :value="PostStore.PostCount"
                     subtitle="All time"
                     icon="mdi:file-document-outline"
                     icon-color="text-blue-400"/>
                 <DashboardCard 
-                    :background-color="PostStore.isDark ? 'bg-gradient-to-br from-purple-900 to-purple-800' : 'shadow-md bg-white'"
+                    :background-color="PostStore.isDark ? 'bg-gradient-to-br from-[#1e293b] to-purple-900' : 'shadow-md bg-white'"
                     title="This Month"
                     :value="PostStore.PostCount"
                     subtitle="December 2025"

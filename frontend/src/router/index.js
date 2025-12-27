@@ -27,7 +27,7 @@ const router = createRouter({
       path: '/Dashboard',
       name: 'Dashboard',
       component: () => import('../views/Dashboard/Dashboard.vue'),
-      meta: { guest: false} // Requires user to be logged in
+      meta: { guest: true } // Requires user to be logged in
     }
   ],
 })
@@ -40,9 +40,6 @@ router.beforeEach((to, from, next) =>{
  // If route requires auth and user is logged in, redirect to home
  if (to.meta.requiresAuth && isAuthenticated) {
     next('/home')
- }
- if (!to.meta.guest) {
-  next()
  }
  // If route is for guests only and user is not logged in, redirect to login
 else if (to.meta.guest && !isAuthenticated) {

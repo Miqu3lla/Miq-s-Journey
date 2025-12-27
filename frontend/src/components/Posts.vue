@@ -39,8 +39,9 @@ const editPost = async (postID) => {
             postID: postID,
             title: newTitle.value,
             content: newContent.value,
-            tags: newTags.value.split(',').map(t => t.trim())
+            tags: newTags.value.trim() ? newTags.value.split(',').map(t => t.trim()).filter(t => t !== "") : []
         })
+    
         if (result.success) {
             toast.success('Post edited successfully!'); 
             editingPostId.value = null;
@@ -130,7 +131,7 @@ onMounted(async () => {
                     <h1>{{ formatDate(post.createdAt) }}</h1>
                 </div>
                 <h1 class = 'mb-10'>{{ post.content }}</h1>
-                <div v-if="post.tags.length >= 1 "class = 'flex justify-start gap-3 text-indigo-400 '>
+                <div v-if="post.tags.length >= 1 "class = 'flex justify-start gap-1 text-indigo-400 '>
                     <h1 v-for="tag in post.tags.slice(0,99)" :class="postStore.isDark? 'bg-[#0f172a]' : 'bg-gray-100'" class="rounded-md p-2">#{{ tag }}</h1>
                 </div>
             </div>
