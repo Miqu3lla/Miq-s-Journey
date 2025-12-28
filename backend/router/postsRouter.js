@@ -1,4 +1,5 @@
 import { Router } from 'express'
+//import controller functions for posts
 import { createPost, getAllPosts, editPost, deletePost} from '../controllers/postController.js'
 
 const router = Router();

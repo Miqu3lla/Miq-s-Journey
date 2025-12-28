@@ -1,3 +1,4 @@
+//import post model
 import Post from '../models/post.js';
 
 /**

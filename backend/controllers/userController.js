@@ -90,8 +90,9 @@ export const uploadAvatar = async (req, res) =>{
             crop: 'fill',             // Fill the dimensions (may crop to fit)
             gravity: 'face',          // Focus on face when cropping (Cloudinary detects faces)
             quality: 'auto',          
-            fetch_format: 'auto'      
+            fetch_format: 'auto'      //optimize format (webp, jpeg, etc.) based on browser support
         })
+        
         // result contains: { secure_url, public_id, width, height, format, etc. }
 
         // STEP 6: Delete temporary file from local disk

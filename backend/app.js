@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+//import route handlers for posts and users
 import postRoutes from './router/postsRouter.js';
 import userRoutes from './router/userRoutes.js';
 

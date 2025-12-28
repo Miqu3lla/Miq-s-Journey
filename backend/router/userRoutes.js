@@ -5,28 +5,28 @@ const router = Router();
 
 // MULTER STORAGE CONFIGURATION
 
-// diskStorage tells multer to save uploaded files to disk (not memory)
+//diskStorage to save files to local disk
 const storage = multer.diskStorage({
-    // destination: Where to save uploaded files
+    //destination: yeah common sense where u want to save the file
+
     // Parameters: req (request object), file (uploaded file info), cb (callback)
+
     destination: (req, file, cb) => {
-        // cb(error, path) - first arg is error (null = no error), second is the folder path
+        //first argument is null for no error and second is the folder path
         cb(null, 'uploads/'); // Save to 'uploads/' folder (must exist)
     },
     
-    // filename: What to name the saved file
-    // Parameters: req, file, cb
+    //filename: to determine the name of the file
+    // Parameters: req(request object), file (uploaded file info), cb (callback)
     filename: (req, file, cb) => {
-        // Create a unique filename using timestamp + original name
-        // Example: "1703721234567-avatar.png"
-        const safeName = `${Date.now()}-${file.originalname}`;
+        // naming for the file created
+        const safeName = `${file.originalname}`;
         cb(null, safeName); // cb(error, filename)
     }
 });
 
-// ========================================
 // FILE FILTER (VALIDATION)
-// ========================================
+
 // fileFilter: Validate uploaded files before accepting them
 // Parameters: req, file, cb
 const fileFilter = (req, file, cb) => {
