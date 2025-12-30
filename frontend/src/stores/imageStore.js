@@ -4,9 +4,19 @@ import { ref } from "vue";
 // Pinia store for managing image uploads
 
 export const useImageStore = defineStore('images', () => {
-    const uploadStatus = ref(null);
+    const uploadStatus = ref('idle'); // idle, uploading, success, error
     const uploadError = ref(null);
     const image = ref(null);
+
+
+
+
+
+    //getters 
+
+
+
+    //Actions 
 
     //Action to upload image to backend
     const uploadImage = async (file) => {
@@ -16,17 +26,33 @@ export const useImageStore = defineStore('images', () => {
 
             // Prepare form data
             const formData = new FormData();
-            formData.append('image', file);
+            //send the file with the key avatar and let it only uplaod images
+            formData.append('avatar', file);
             // Send POST request to backend
-            const response = await axios.post('http://localhost:400/api/user/avatar', formData, {
-                headers: {
-                    'Content-Type' : 'multipart/form-data'
-                }
-                
-            })
+            const response = await axios.post('http://localhost:4000/api/user/avatar', formData)
+            
+            image.value = response.data.avatar;
+            uploadStatus.value = 'success';
+            return {
+                success: true,
+                message: 'Image uploaded successfully',
+            }
         }catch (err) {
             uploadStatus.value = 'error';
             uploadError.value = err.response?.data?.message || 'Image upload failed';
+            return {
+                success: false,
+                message: uploadError.value
+            }
         }
+    }
+
+    return {
+        uploadStatus,
+        uploadError,
+        image,
+
+        //actions
+        uploadImage
     }
 })

@@ -42,11 +42,8 @@ const MonthlyPostCount = computed(() => {
 })
 
 const UniqueTagCount = computed(() => {
-    const tagsSet = new Set();
-    posts.value.forEach(post => {
-        post.tags.forEach(tag => tagsSet.add(tag))
-    })
-    return tagsSet.size
+    const Alltags = posts.value.flatMap(post => post.tags)
+    return new Set(Alltags).size
 })
 
 
