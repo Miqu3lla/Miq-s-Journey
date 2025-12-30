@@ -1,10 +1,12 @@
 <script setup>
 import { usePostStore } from '@/stores/postsStore';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useToast } from 'vue-toastification';
 import { Icon } from '@iconify/vue';
+import { useAuthStore } from '@/stores/authStore';
 // Initialize store and utilities
 const postStore = usePostStore();
+const authStore = useAuthStore();
 const toast = useToast();
 
 // Form field reactive references
@@ -12,14 +14,14 @@ const title = ref('');
 const content = ref('');
 const tag = ref('');
 
-
 // Handle post submission
 const submitPost = async () => {
     try {
         const tagArray = tag.value.trim() ? tag.value.split(',').map(t => t.trim()).filter(t => t !== "") : [];
+        const username = title.value.trim() ? title.value.trim() : authStore.user.username
         // Split tags by comma and trim whitespace
         const result = await postStore.createPost(
-            title.value,
+            username,
             content.value,
             tagArray
         );
@@ -40,6 +42,7 @@ const submitPost = async () => {
         toast.error('An error occured,' + error.message);
     }
 }
+
 
 </script>
 

@@ -37,7 +37,7 @@ const editPost = async (postID) => {
     try { 
         const result = await postStore.editPost({
             postID: postID,
-            title: newTitle.value,
+            title: newTitle.value.trim() ? newTitle.value.trim() : authStore.user.username,
             content: newContent.value,
             tags: newTags.value.trim() ? newTags.value.split(',').map(t => t.trim()).filter(t => t !== "") : []
         })
