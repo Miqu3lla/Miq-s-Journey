@@ -12,10 +12,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: '' // Default avatar URL if none provided
     },
-    bio: {
-        type: String,
-        default: '' // Default bio if none provided
-    },
     cloudinaryID: {
         type: String,
         default: null // Default Cloudinary ID if none provided
