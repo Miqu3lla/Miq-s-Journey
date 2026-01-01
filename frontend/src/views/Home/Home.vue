@@ -23,7 +23,7 @@ const uploadImage = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    if (!file.type.startswith('image/')) {
+    if (!file.type.startsWith('image/')) {
         toast.error('Please select a valid image file.');
         return;
     }

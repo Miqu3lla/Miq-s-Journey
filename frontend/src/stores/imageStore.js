@@ -27,7 +27,7 @@ export const useImageStore = defineStore('images', () => {
 
             // Prepare form data
             const formData = new FormData();
-            //send the file with the key avatar and let it only uplaod images
+            //send the file with the key avatar and let it only upload images
             formData.append('avatar', file);
             // Send POST request to backend
             const response = await axios.post('http://localhost:4000/api/user/avatar', formData)
