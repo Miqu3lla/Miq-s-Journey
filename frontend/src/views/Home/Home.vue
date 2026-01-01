@@ -44,7 +44,7 @@ const uploadImage = async (event) => {
 
 </script>
 <template>
-    <div :class="postStore.isDark ? 'bg-indigo-900' : 'bg-white' "  class = "min-h-screen w-full flex flex-col ">
+    <div :class="postStore.isDark ? 'bg-[#1e1a4d]' : 'bg-white' "  class = "min-h-screen w-full flex flex-col ">
         <div :class="authStore.isOwner ? 'block' : 'hidden' " class = "pt-30 px-30">
         <CreatePost />
         </div>
