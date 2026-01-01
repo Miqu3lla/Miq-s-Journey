@@ -44,18 +44,20 @@ const uploadImage = async (event) => {
 
 </script>
 <template>
-    <div :class="postStore.isDark ? 'bg-[#1e1a4d]' : 'bg-white' "  class = "min-h-screen w-full flex flex-col ">
-        <div :class="authStore.isOwner ? 'block' : 'hidden' " class = "pt-30 px-30">
-        <CreatePost />
+    <div :class="postStore.isDark ? 'bg-[#1e1a4d]' : 'bg-white' "  class = "min-h-screen flex flex-col ">
+        <div class = 'flex pt-30 pl-30 '>
+            <div :class="[authStore.isOwner ? 'block' : 'hidden', 'w-full']">
+                <CreatePost />
+            </div>
+            <div class="flex items-center pr-90 gap-4 ">
+                <img  :src="imageStore.image || '@/images/default.jpg'" alt='Profile' class ='h-24 w-24 rounded-full object-cover'/>
+                <!--call the uploadImage so that event.target knows which input type to target-->
+                <input ref="fileInput" type="file" accept="image/*" @change="uploadImage" class="hidden"/>
+                <button :class ="[authStore.isOwner ? 'block' : 'hidden', 'bg-blue-600 text-white px-3 py-1 rounded-full text-sm hover:bg-blue-700 transition-all duration-300']" @click='triggerFilePicker' :disabled="imageStore.uploadStatus === 'uploading'">{{ imageStore.uploadStatus === 'uploading' ? 'Uploading...' : 'Upload Image'}}</button>
+            </div>
         </div>
         <div class = "px-30 grid" :class="authStore.isGuest ? 'pt-30' : 'pt-15'">
             <Posts />
-        </div>
-        <div>
-            <img  :src="imageStore.image || '@/images/default.jpg'" alt='Profile' class ='fixed top-50 right-95 h-24 w-24 rounded-full'/>
-            <!--call the uploadImage so that event.target knows which input type to target-->
-            <input ref="fileInput" type="file" accept="image/*" @change="uploadImage" class="hidden"/>
-            <button class ='fixed top-80 right-90 bg-blue-600 text-white px-3 py-1 rounded-full text-sm hover:bg-blue-700 transition-all duration-300' @click='triggerFilePicker' :disabled="imageStore.uploadStatus === 'uploading'">{{ imageStore.uploadStatus === 'uploading' ? 'Uploading...' : 'Upload Image'}}</button>
         </div>
      </div>
     
