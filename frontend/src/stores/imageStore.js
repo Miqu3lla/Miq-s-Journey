@@ -7,7 +7,7 @@ import { ref } from "vue";
 export const useImageStore = defineStore('images', () => {
     const uploadStatus = ref('idle'); // idle, uploading, success, error
     const uploadError = ref(null);
-    const image = ref(null);
+    const image = ref(JSON.parse(localStorage.getItem('avatar')) ||  null);
 
 
 
@@ -34,6 +34,7 @@ export const useImageStore = defineStore('images', () => {
             
             image.value = response.data.avatarURL;
             uploadStatus.value = 'success';
+            localStorage.setItem('avatar', JSON.stringify(image.value))
             return {
                 success: true,
                 message: 'Image uploaded successfully',
