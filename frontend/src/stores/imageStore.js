@@ -32,7 +32,7 @@ export const useImageStore = defineStore('images', () => {
             // Send POST request to backend
             const response = await axios.post('http://localhost:4000/api/user/avatar', formData)
             
-            image.value = response.data.avatar;
+            image.value = response.data.avatarURL;
             uploadStatus.value = 'success';
             return {
                 success: true,
