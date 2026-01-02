@@ -56,27 +56,21 @@ const uploadImage = async (event) => {
     <div :class="postStore.isDark ? 'bg-[#1e1a4d]' : 'bg-white'" class="min-h-screen flex flex-col">
         <div class="flex flex-col lg:flex-row pt-10 md:pt-20 lg:pt-30 px-4 sm:px-8 md:px-16 lg:px-30 gap-6 lg:gap-10">
             <div 
-                :class="[
-                    'hidden lg:block w-full lg:w-[400px] shrink-0',
+                :class="['hidden lg:block w-full lg:w-[500px] shrink-0',
                     authStore.isOwner ? 'order-2' : 'order-1'
                 ]"
             >
-                <div class="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl">
+                <div :class="[postStore.isDark ? 'bg-gray-800' : 'bg-white ', 'rounded-3xl overflow-hidden shadow-2xl']">
                     <div class="h-32 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 relative">
                         <input ref="fileInput" type="file" accept="image/*" @change="uploadImage" class="hidden"/>
                     </div>
                     
                     <div class="px-8 pb-8 pt-4 relative">
                         <div class="absolute -top-16 left-8">
-                            <div 
-                                :class="authStore.isOwner ? 'relative cursor-pointer group' : 'relative cursor-default'"
-                                @click="authStore.isOwner ? triggerFilePicker() : null"
-                            >
-                                <img 
-                                    :src="imageStore.image || '@/images/default.jpg'" 
-                                    alt='Profile' 
-                                    :class="[
-                                        'h-32 w-32 rounded-full object-cover border-4 border-gray-800 shadow-xl',
+                            <div :class="authStore.isOwner ? 'relative cursor-pointer group' : 'relative cursor-default'"
+                                @click="authStore.isOwner ? triggerFilePicker() : null">
+                                <img :src="imageStore.image || '@/images/default.jpg'" alt='Profile' 
+                                    :class="['h-32 w-32 rounded-full object-cover border-4 border-gray-800 shadow-xl',
                                         authStore.isOwner ? 'group-hover:opacity-90 transition-opacity' : ''
                                     ]"
                                 />
@@ -90,7 +84,7 @@ const uploadImage = async (event) => {
                         </div>
                         
                         <div class="mt-20">
-                            <h2 class="text-2xl font-bold text-white mb-2">{{ authStore.user.username }}</h2>
+                            <h2 class="text-2xl font-bold text-white mb-2">Miq</h2>
                             <p class="text-gray-400 text-sm leading-relaxed">
                                 Currently a College Student, Web Developer by passion, and lifelong learner. Documenting my journey one post at a time.
                             </p>
@@ -98,7 +92,6 @@ const uploadImage = async (event) => {
                     </div>
                 </div>
             </div>
-            
             <div :class="[authStore.isOwner ? 'block order-1' : 'hidden', 'w-full lg:flex-1']">
                 <CreatePost />
             </div>

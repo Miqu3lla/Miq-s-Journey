@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
 // Pre-save hook: Hash password before saving to database
 userSchema.pre('save', async function() {
     if (!this.isModified('password')) return; // Proceed if password is not modified
+    //use this.password to refer to the password field above
     this.password = await bcrypt.hash(this.password, 12); // Hash with salt rounds of 12
 })
 

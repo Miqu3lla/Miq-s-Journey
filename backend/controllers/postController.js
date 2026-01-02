@@ -39,7 +39,7 @@ export const createPost = async (req, res) => {
  */
 export const getAllPosts = async (req, res) =>{
     try {
-        // Fetch all posts and populate author field with username only
+        // Find all posts and populate author field and gets username only
         const posts = await Post.find().populate('author', 'username');
         
         // Check if posts exist
@@ -70,7 +70,7 @@ export const editPost = async (req, res) => {
          if (!updatedPost) {
         return res.status(404).json({message: 'Post not found'})
         }
-
+        //succesful message then display the updated post
         res.status(200).json({message: 'Post updated successfully', post: updatedPost})
 
         }catch (err) {

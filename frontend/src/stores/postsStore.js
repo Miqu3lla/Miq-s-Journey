@@ -61,11 +61,9 @@ const createPost = async(title, content, tags) => {
             tags,
         })
 
-
         // Add new post to the beginning of posts array
         posts.value.unshift(response.data.post)
-        
-        
+                
         // Return success status
         return {
             success: true,
@@ -123,8 +121,9 @@ const editPost = async ({postID, title, content, tags}) => {
             content,
             tags
         })
-        // Update the post in the posts array
+        // find index of post id in posts array
         const index = posts.value.findIndex(post => post._id === postID)
+        //check if index is not empty then update the post in posts array
         if (index !== -1) {
             posts.value[index] = response.data.post
         }

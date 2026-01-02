@@ -45,44 +45,29 @@ export const userLogin = async (req, res) => {
     }
 }
 
-/**
- * Upload user avatar to Cloudinary
- * POST /api/user/avatar
- * 
- * Flow:
- * 1. Multer saves file to local disk (uploads/ folder)
- * 2. Controller uploads file from disk to Cloudinary CDN
- * 3. Controller deletes local file (cleanup)
- * 4. Controller updates user record with Cloudinary URL
- * 5. Frontend displays image using Cloudinary URL
- */
+
 export const uploadAvatar = async (req, res) =>{
     try {
-        // STEP 1: Verify multer processed a file
-        // req.file is populated by multer middleware (upload.single('avatar'))
-        // req.file contains: { path, filename, originalname, mimetype, size, etc. }
+        //check if file from multer exists
         if (!req.file) {
             return res.status(400).json({message: 'No file uploaded'});
         }
 
-        // STEP 2: Get user ID (hardcoded for now - should use req.params.id or req.user.id)
+        // get userID from authenticated user (for simplicity, hardcoded here)
         const userID = '6936ab6abcf300c5e5f34021'
 
-        // STEP 3: Find user in database
+        //  Find user in database
         const user = await User.findById(userID);
         if (!user) {
             return res.status(404).json({message: 'User not found'});
         }
         
-        // STEP 4: Delete old avatar from Cloudinary (if exists)
-        // user.cloudinaryID is the public_id from the previous upload
-        // This prevents accumulating old images in your Cloudinary account
+       //check if there is a file in the cloudinaryID document then deletes it
         if (user.cloudinaryID) {
             await cloudinary.uploader.destroy(user.cloudinaryID);
         }
         
-        // STEP 5: Upload new image to Cloudinary
-        // req.file.path is the local file path (e.g., "uploads/1703721234567-avatar.png")
+        // then upload new image to cloudinary
         const result = await cloudinary.uploader.upload(req.file.path, {
             folder: 'avatars',        // Organize uploads in Cloudinary 'avatars' folder
             width: 300,               
@@ -95,12 +80,10 @@ export const uploadAvatar = async (req, res) =>{
         
         // result contains: { secure_url, public_id, width, height, format, etc. }
 
-        // STEP 6: Delete temporary file from local disk
-        // The file is no longer needed since it's now on Cloudinary CDN
-        // fs.unlinkSync() synchronously removes the file
+        // delete local file that multer putted into uploads folder
         fs.unlinkSync(req.file.path);
 
-        // STEP 7: Update user document with Cloudinary URLs
+        //update the document with avatar URL and cloudinaryID(so we can delete or update later)
         user.avatar = result.secure_url;    // HTTPS URL to display image (e.g., https://res.cloudinary.com/...)
         user.cloudinaryID = result.public_id; // Cloudinary ID to delete/update later (e.g., "avatars/abc123")
 
