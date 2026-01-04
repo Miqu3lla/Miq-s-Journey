@@ -54,7 +54,7 @@ const uploadImage = async (event) => {
 </script>
 <template>
     <div :class="postStore.isDark ? 'bg-[#1e1a4d]' : 'bg-white'" class="min-h-screen flex flex-col">
-        <div class="flex flex-col lg:flex-row pt-10 md:pt-20 lg:pt-30 px-4 sm:px-8 md:px-16 lg:px-30 gap-6 lg:gap-10">
+        <div class="flex flex-col lg:flex-row pt-20 md:pt-20 lg:pt-30 px-4 sm:px-8 md:px-16 lg:px-30 gap-6 lg:gap-10">
             <div :class="['hidden xl:block max-w-md w-full', authStore.isOwner ? 'order-2' : 'order-1']">
                 <div :class="[postStore.isDark ? 'bg-gray-800' : 'bg-white ', 'rounded-3xl overflow-hidden shadow-2xl ']">
                     <div class="h-32 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 ">
