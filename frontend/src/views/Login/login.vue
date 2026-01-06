@@ -17,6 +17,9 @@ const handleLogin = async () => {
     loading.value = true
     try {
         //gain access to the login logic from auth store
+        if (loading.value) {
+            toast.info('Logging in, please wait...')
+        }
         const login = await authStore.handleLogin(username.value, password.value)
         //check if login was successful
         if (login.success) {
