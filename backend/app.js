@@ -7,10 +7,15 @@ import userRoutes from './router/userRoutes.js';
 // Create Express application
 const app = express();
 
+const allowedOrigins = [
+    'http://localhost:5173',
+    process.env.FRONTEND_URL
+];
+
 // Middleware
 app.use(express.json()); // Parse JSON request bodies
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: allowedOrigins,
     credentials: true
 })); // Enable Cross-Origin Resource Sharing
 

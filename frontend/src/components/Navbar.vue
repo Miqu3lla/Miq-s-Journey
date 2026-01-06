@@ -2,10 +2,8 @@
 import { useAuthStore } from '@/stores/authStore';
 import { usePostStore } from '@/stores/postsStore';
 import { Icon } from '@iconify/vue';
-import { onMounted, ref, defineProps } from 'vue';
+import { ref } from 'vue';
 import { useToast } from 'vue-toastification';
-import Posts from './Posts.vue';
-import router from '@/router';
 
 
 const authStore = useAuthStore();
