@@ -1,5 +1,5 @@
 import {defineStore } from 'pinia';
-import axios from 'axios';
+import axios from '../api/axios.js';
 import {ref, computed} from 'vue';
 import router from '../router/index.js';
 

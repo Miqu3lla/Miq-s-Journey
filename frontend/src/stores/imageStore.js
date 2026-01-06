@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import axios from '../api/axios.js';
 import { ref } from "vue";
 
 // Pinia store for managing image uploads
