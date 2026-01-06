@@ -10,13 +10,7 @@ export const useImageStore = defineStore('images', () => {
     const uploadError = ref(null);
     const image = ref(JSON.parse(localStorage.getItem('avatar')) ||  null);
 
-
-
-
-
     //getters 
-
-
 
     //Actions 
 
@@ -33,7 +27,10 @@ export const useImageStore = defineStore('images', () => {
             // Send POST request to backend
             const response = await axios.post(`${API}/api/user/avatar`, formData)
             
-            image.value = response.data.avatarURL;
+            let newUrl = response.data.avatarURL;
+            // Append timestamp to URL to prevent caching issues
+            newUrl += `?t=${new Date().getTime()}`;
+            image.value = newUrl;
             uploadStatus.value = 'success';
             localStorage.setItem('avatar', JSON.stringify(image.value))
             return {
