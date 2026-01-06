@@ -6,6 +6,7 @@ import CreatePost from '@/components/CreatePost.vue';
 import Posts from '@/components/Posts.vue';
 import { ref } from 'vue';
 import { useToast } from 'vue-toastification';
+import defaultImg from '@/images/default.jpg';
 
 const authStore = useAuthStore();
 const postStore = usePostStore();
@@ -65,7 +66,7 @@ const uploadImage = async (event) => {
                         <div class="absolute -top-16 left-8">
                             <div :class="authStore.isOwner ? 'relative cursor-pointer group' : 'relative cursor-default'"
                                 @click="authStore.isOwner ? triggerFilePicker() : null">
-                                <img :src="imageStore.image || '@/images/default.jpg'" alt='Profile' 
+                                <img :src="imageStore.image || defaultImg" alt='Profile' 
                                     :class="['h-32 w-32 rounded-full object-cover border-4 border-gray-800 shadow-xl',
                                         authStore.isOwner ? 'group-hover:opacity-90 transition-opacity' : ''
                                     ]"/>
