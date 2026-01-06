@@ -5,6 +5,7 @@ import axios from 'axios'
 import {ref} from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import { useToast } from 'vue-toastification'
+import bgImage from '@/images/login_background.png'
 
 const authStore = useAuthStore()
 const toast = useToast()
@@ -48,7 +49,11 @@ const handleGuestLogin = async () => {
 
 <template>
     
-    <div class="flex gap-10 min-h-screen bg-cover bg-center" style="background-image: url('/src/images/login_background.png'); background-size: cover; background-attachment: fixed;">
+    <div class="flex gap-10 min-h-screen bg-cover bg-center" :style="{
+        backgroundImage: `url(${bgImage})`, 
+        backgroundSize: 'cover', 
+        backgroundAttachment: 'fixed'
+    }">
         <div class = "hidden ml-60 mt-45 w-170 xl:block">
             <h1 class ='text-5xl text-white flex flex-col font-sans font-semibold'>Welcome Back 
                 <span class = 'bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent'>Miquella!</span></h1>
