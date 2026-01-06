@@ -9,7 +9,10 @@ const app = express();
 
 // Middleware
 app.use(express.json()); // Parse JSON request bodies
-app.use(cors()); // Enable Cross-Origin Resource Sharing
+app.use(cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    credentials: true
+})); // Enable Cross-Origin Resource Sharing
 
 // API Routes
 app.use('/api/post', postRoutes); // Post-related endpoints

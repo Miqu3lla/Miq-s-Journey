@@ -48,15 +48,15 @@ const logout = () => {
                     </router-link>
                         
                 </div>
-                <div class = "flex flex-col justify-center hidden sm:hidden md:hidden lg:flex xl:flex">
-                    <h1 class="text-xl font-semibold ml-2">Miq's Journey</h1>
-                    <h1 :class="PostStore.isDark ? 'text-gray-400' : 'text-gray-500'" class="text-md font-medium ml-2"> Your own Personal Space</h1>
+                <div class = "flex flex-col justify-center block  lg:flex xl:flex">
+                    <h1 class="text-xl font-semibold ml-2 ">Moonlit Thoughts</h1>
+                    <h1 :class="PostStore.isDark ? 'text-gray-400' : 'text-gray-500'" class="text-md font-medium ml-2 hidden md:block lg:block xl:block"> Your own Personal Space</h1>
                 </div>
             </div>
-            <div class = 'md:block flex lg:hidden xl:hidden'>
+            <div class = ' flex lg:block xl:hidden'>
                 <Icon icon="mdi:menu" @click ="Sidebar = !Sidebar":class="PostStore.isDark ? 'text-gray-300' : 'text-gray-600'" class="h-8 w-8 cursor-pointer"/>
             </div>
-            <div class = 'flex mr-5 items-center gap-4 hidden lg:flex xl:flex'>
+            <div class = 'flex mr-5 items-center gap-4 hidden xl:flex'>
                 <!-- Search Bar -->
                 <div class="relative">
                     <Icon icon="mdi:magnify" :class="PostStore.isDark ? 'text-gray-400' : 'text-gray-400'" class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5"/>
