@@ -1,7 +1,6 @@
 <script setup>
 
 import LoginCard from '@/components/LoginCard.vue'
-import axios from 'axios'
 import {ref} from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import { useToast } from 'vue-toastification'
