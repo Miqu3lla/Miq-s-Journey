@@ -38,13 +38,13 @@ const uploadImage = async (event) => {
         const imageUrl = await imageStore.uploadImage(file);
 
         if (imageUrl) {
-            toast.success('Image uploaded successfully!');
+            toast.success('Image uploaded successfully!');  
         } else {
             toast.error('Image upload failed.' && imageUrl.message);
         }
     } catch (error) {
         console.error('Image upload failed:', error);
-        return null;
+        return null; 
     }finally {
         loading.value = false;
     }

@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import axios from '../api/axios.js';
-import API from '../config/api.js';
 import { ref } from "vue";
 
 // Pinia store for managing image uploads
@@ -25,7 +24,7 @@ export const useImageStore = defineStore('images', () => {
             //send the file with the key avatar and let it only upload images
             formData.append('avatar', file);
             // Send POST request to backend
-            const response = await axios.post(`${API}/api/user/avatar`, formData)
+            const response = await axios.post('/api/user/avatar', formData)
             
             let newUrl = response.data.avatarURL;
             // Append timestamp to URL to prevent caching issues

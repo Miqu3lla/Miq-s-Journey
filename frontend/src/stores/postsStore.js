@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { ref,computed } from "vue";
 import axios from '../api/axios.js';
-import API from '../config/api.js';
 import { useAuthStore } from "./authStore";
 
 
@@ -60,7 +59,7 @@ const createPost = async(title, content, tags) => {
     
     try {
         // Send POST request to backend API to create a new post
-        const response = await axios.post(`${API}/api/post/create`, {
+        const response = await axios.post('/api/post/create', {
             title,
             content,
             tags,
@@ -95,7 +94,7 @@ const viewPosts = async() => {
     
     try {
         // GET request to fetch all posts
-        const response = await axios.get(`${API}/api/post/all`)
+        const response = await axios.get('/api/post/all')
         
         // Update posts array with fetched data
         posts.value = response.data?.posts
@@ -121,7 +120,7 @@ const editPost = async ({postID, title, content, tags}) => {
     error.value = null
 
     try {
-        const response = await axios.put(`${API}/api/post/edit/${postID}`, {
+        const response = await axios.put(`/api/post/edit/${postID}`, {
             title,
             content,
             tags
@@ -154,7 +153,7 @@ const deletePost = async (postID) => {
     error.value = null
 
     try  {
-        const response = await axios.delete(`${API}/api/post/delete/${postID}`)
+        const response = await axios.delete(`/api/post/delete/${postID}`)
 
         //remove post from posts array
         posts.value = posts.value.filter(post => post._id !== postID)

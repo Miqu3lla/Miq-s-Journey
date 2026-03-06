@@ -2,7 +2,6 @@ import {defineStore } from 'pinia';
 import axios from '../api/axios.js';
 import {ref, computed} from 'vue';
 import router from '../router/index.js';
-import API from '../config/api.js';
 
 
 export const useAuthStore = defineStore('auth', () => {
@@ -21,7 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
         loading.value = true
         error.value = null
         //fetch from backend
-        const response = await axios.post(`${API}/api/user/login`, {
+        const response = await axios.post('/api/user/login', {
             username,
             password
         })
