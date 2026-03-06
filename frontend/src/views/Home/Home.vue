@@ -35,12 +35,12 @@ const uploadImage = async (event) => {
         toast.info('Uploading image, please wait...');
     }
     try {
-        const imageUrl = await imageStore.uploadImage(file);
+        const result = await imageStore.uploadImage(file);
 
-        if (imageUrl) {
-            toast.success('Image uploaded successfully!');  
+        if (result.success) {
+            toast.success('Image uploaded successfully!');
         } else {
-            toast.error('Image upload failed.' && imageUrl.message);
+            toast.error('Image upload failed: ' + result.message);
         }
     } catch (error) {
         console.error('Image upload failed:', error);

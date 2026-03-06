@@ -24,7 +24,10 @@ export const useImageStore = defineStore('images', () => {
             //send the file with the key avatar and let it only upload images
             formData.append('avatar', file);
             // Send POST request to backend
-            const response = await axios.post('/api/user/avatar', formData)
+            // Content-Type must be undefined so browser sets multipart/form-data with correct boundary
+            const response = await axios.post('/api/user/avatar', formData, {
+                headers: { 'Content-Type': undefined }
+            })
             
             let newUrl = response.data.avatarURL;
             // Append timestamp to URL to prevent caching issues
