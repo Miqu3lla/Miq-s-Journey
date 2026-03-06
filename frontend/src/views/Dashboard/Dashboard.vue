@@ -4,6 +4,7 @@ import { ref,watch, onMounted} from 'vue';
 import { Icon } from '@iconify/vue';
 import { useAuthStore } from '@/stores/authStore';
 import DashboardCard from './DashboardCard.vue';
+import DashBoardManager from './DashBoardManager.vue';
 const PostStore = usePostStore();
 const AuthStore = useAuthStore();
 
@@ -16,8 +17,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <main :class="PostStore.isDark ? 'bg-indigo-900  text-white' : 'text-black'"class = "pt-35 w-full  min-h-screen">
-        <section :class="PostStore.isDark? 'bg-[#1e293b]' : 'shadow-md '"class = ' ml-25 w-auto mr-25 rounded-2xl'>
+    <main :class="PostStore.isDark ? 'bg-indigo-900  text-white' : 'text-black'"
+class = "pt-35 w-full  min-h-screen">
+        <section :class="PostStore.isDark? 'bg-[#1e293b]' : 'shadow-md '"class =
+ ' ml-25 w-auto mr-25 rounded-2xl'>
             <div class = 'flex p-5  items-center'>
                 <div class = 'bg-indigo-600 rounded-2xl p-4 mt-4 ml-5 mr-3'>
                     <Icon icon="mdi:chart-line" class="h-8 w-8 "/>
@@ -28,21 +31,21 @@ onMounted(() => {
                 </div>
             </div>
             <section class = 'p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                <DashboardCard 
+                <DashboardCard
                     :background-color="PostStore.isDark ? 'bg-gradient-to-br from-[#1e293b] to-blue-900' : 'shadow-md bg-white'"
                     title="Total Posts"
                     :value="PostStore.PostCount"
                     subtitle="All time"
                     icon="mdi:file-document-outline"
                     icon-color="text-blue-400"/>
-                <DashboardCard 
+                <DashboardCard
                     :background-color="PostStore.isDark ? 'bg-gradient-to-br from-[#1e293b] to-purple-900' : 'shadow-md bg-white'"
                     title="This Month"
                     :value="PostStore.MonthlyPostCount"
                     :subtitle="PostStore.GetCurrentMonth + ' ' + PostStore.GetCurrentYear"
                     icon="mdi:calendar-month"
                     icon-color="text-purple-400"/>
-                <DashboardCard 
+                <DashboardCard
                     :background-color="PostStore.isDark ?'bg-gradient-to-br from-teal-900 to-teal-800' : 'shadow-md bg-white'"
                     title="Unique Tags"
                     :value="PostStore.UniqueTagCount"
@@ -51,6 +54,8 @@ onMounted(() => {
                     icon-color="text-teal-400"/>
             </section>
         </section>
+
+        <DashBoardManager/>
     </main>
-    
+
 </template>
