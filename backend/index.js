@@ -6,7 +6,7 @@ import app from './app.js';
 dotenv.config();
 
 // Connect to MongoDB database
-const connectDatabase = async () => {
+const connectDatabase = async () => {  
     try {
         await mongoose.connect(process.env.MONGOOSE_URI)
         console.log('Database connected successfully');
@@ -15,7 +15,7 @@ const connectDatabase = async () => {
     }
 }
 
-// Initialize server with database connection
+// Initialize server with database connection 
 const startServer = async () => {
     try {
         // Connect to database first

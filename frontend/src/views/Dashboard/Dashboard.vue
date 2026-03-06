@@ -38,8 +38,8 @@ onMounted(() => {
                 <DashboardCard 
                     :background-color="PostStore.isDark ? 'bg-gradient-to-br from-[#1e293b] to-purple-900' : 'shadow-md bg-white'"
                     title="This Month"
-                    :value="PostStore.PostCount"
-                    subtitle="December 2025"
+                    :value="PostStore.MonthlyPostCount"
+                    :subtitle="PostStore.GetCurrentMonth + ' ' + PostStore.GetCurrentYear"
                     icon="mdi:calendar-month"
                     icon-color="text-purple-400"/>
                 <DashboardCard 

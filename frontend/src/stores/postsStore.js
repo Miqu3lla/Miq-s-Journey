@@ -24,27 +24,31 @@ const isDarkMode = computed(() => {
     isDark.value = !isDark.value
     localStorage.setItem('isDarkMode', isDark.value)
 })
-
+// PostCount returns the total number of posts
 const PostCount = computed(() => posts.value.length)
 
-const TodayPostCount = computed(() => {
-    const today = new Date();
-    return posts.value.filter(post => {
-        const postDate = new Date(post.createdAt);
-        return postDate.getDate() === today.getDate()
-    })  
-})
 const MonthlyPostCount = computed(() => {
-    const today = new Date();
+    const thisMonth = new Date();
     return posts.value.filter(post => {
         const postDate = new Date(post.createdAt);
-        return postDate.getMonth() === today.getMonth()
-    })
+        return postDate.getMonth() === thisMonth.getMonth()
+    }).length
 })
 
 const UniqueTagCount = computed(() => {
     const Alltags = posts.value.flatMap(post => post.tags)
     return new Set(Alltags).size
+})
+
+const GetCurrentMonth = computed(() => {
+    const ThisMonth = new Date().toLocaleDateString('en-US', {month: 'long'})
+
+    return ThisMonth
+})
+
+const GetCurrentYear = computed(() => {
+    const ThisYear = new Date().getFullYear()
+    return ThisYear
 })
 
 
@@ -181,9 +185,10 @@ return {
     isGridView,
     isDarkMode,
     PostCount,
-    TodayPostCount,
     MonthlyPostCount,
     UniqueTagCount,
+    GetCurrentMonth,
+    GetCurrentYear,
 
     //actions
     createPost,
