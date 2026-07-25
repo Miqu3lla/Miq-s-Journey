@@ -16,6 +16,16 @@ const title = ref('');
 const content = ref('');
 const tag = ref('');
 
+const suggestedTags = ['learning', 'programming', 'feature', 'design', 'bug'];
+
+const addSuggestedTag = (suggestion) => {
+    let currentTags = tag.value.split(',').map(t => t.trim()).filter(t => t);
+    if (!currentTags.includes(suggestion)) {
+        currentTags.push(suggestion);
+        tag.value = currentTags.join(', ') + (currentTags.length ? ', ' : '');
+    }
+}
+
 const submitPost = async () => {
     try {
         const tagArray = tag.value.trim() ? tag.value.split(',').map(t => t.trim()).filter(t => t !== "") : [];
@@ -78,6 +88,14 @@ const submitPost = async () => {
                                     ? 'bg-[#292839]/20 border-white/5 text-[#e3e0f6] placeholder-[#ccc3d8]/40 focus:border-[#d2bbff]/40 focus:ring-[#d2bbff]/40' 
                                     : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-purple-400 focus:ring-purple-400'"
                                 class="w-full rounded-xl py-2.5 pl-10 pr-4 focus:outline-none focus:ring-1 transition-all text-sm"/>
+                        </div>
+                        <div class="flex flex-wrap gap-2 pt-1">
+                            <span v-for="suggestion in suggestedTags" :key="suggestion"
+                                  @click="addSuggestedTag(suggestion)"
+                                  class="text-xs px-2 py-1 rounded-md cursor-pointer transition-colors border"
+                                  :class="postStore.isDark ? 'bg-white/5 border-white/10 hover:border-[#d2bbff]/50 hover:text-[#d2bbff] text-[#ccc3d8]' : 'bg-gray-100 border-gray-200 hover:border-purple-300 hover:text-purple-600 text-gray-600'">
+                                + {{ suggestion }}
+                            </span>
                         </div>
                     </div>
                 </div>

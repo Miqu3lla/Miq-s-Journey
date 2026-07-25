@@ -14,6 +14,16 @@ const newTitle = ref('')
 const newContent = ref('')
 const newTags = ref('')
 
+const suggestedTags = ['learning', 'programming', 'feature', 'design', 'bug'];
+
+const addSuggestedTag = (suggestion) => {
+    let currentTags = newTags.value.split(',').map(t => t.trim()).filter(t => t);
+    if (!currentTags.includes(suggestion)) {
+        currentTags.push(suggestion);
+        newTags.value = currentTags.join(', ') + ', ';
+    }
+}
+
 const startEditing = (post) => {
   editingPostId.value = post._id
   newTitle.value = post.title
@@ -276,6 +286,15 @@ onMounted(async () => {
               "
               class="w-full border p-3 rounded-xl focus:outline-none focus:ring-1 transition-all"
             />
+
+            <div class="flex flex-wrap gap-2 pt-1">
+                <span v-for="suggestion in suggestedTags" :key="suggestion"
+                      @click="addSuggestedTag(suggestion)"
+                      class="text-xs px-2 py-1 rounded-md cursor-pointer transition-colors border"
+                      :class="postStore.isDark ? 'bg-white/5 border-white/10 hover:border-[#d2bbff]/50 hover:text-[#d2bbff] text-[#ccc3d8]' : 'bg-gray-100 border-gray-200 hover:border-purple-300 hover:text-purple-600 text-gray-600'">
+                    + {{ suggestion }}
+                </span>
+            </div>
           </div>
 
           <div class="flex justify-end gap-3 mt-6">
