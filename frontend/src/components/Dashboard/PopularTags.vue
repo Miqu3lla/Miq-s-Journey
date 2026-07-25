@@ -21,9 +21,9 @@ const topTags = computed(() => {
     const maxVal = Math.max(...sorted.map(t => t.count), 1);
     
     const colors = [
-        'bg-purple-500', 
-        'bg-pink-400', 
-        'bg-teal-400', 
+        'bg-[#d2bbff]', 
+        'bg-[#ffade1]', 
+        'bg-[#00f4fe]', 
         'bg-blue-400'
     ];
     
@@ -38,10 +38,10 @@ const topTags = computed(() => {
 <template>
     <div :class="[
         'rounded-xl p-6 flex flex-col gap-6 transition-all h-full',
-        postStore.isDark ? 'bg-[#1e293b]/60 backdrop-blur-xl border border-white/5' : 'bg-white shadow-lg border border-gray-100'
+        postStore.isDark ? 'bg-[#292839]/60 backdrop-blur-xl border border-white/5' : 'bg-white shadow-lg border border-gray-100'
     ]">
         <div class="flex items-center gap-2 border-b pb-4" :class="postStore.isDark ? 'border-white/5' : 'border-gray-100'">
-            <Icon icon="mdi:tag-multiple" class="text-teal-400 text-2xl" />
+            <Icon icon="mdi:tag-multiple" class="text-[#00f4fe] text-2xl" />
             <h3 :class="postStore.isDark ? 'text-dash-on-surface' : 'text-gray-800'" class="font-semibold text-lg tracking-wide">Popular Tags</h3>
         </div>
         

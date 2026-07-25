@@ -23,10 +23,10 @@ onMounted(() => {
             <!-- Dashboard Header -->
             <div :class="[
                 'rounded-xl p-6 md:p-8 flex items-center gap-4 relative overflow-hidden transition-colors',
-                postStore.isDark ? 'bg-[#1e293b]/80 backdrop-blur-xl border border-white/5 shadow-[0_0_20px_rgba(124,58,237,0.1)]' : 'bg-white shadow-lg border border-gray-100'
+                postStore.isDark ? 'bg-[#292839]/60 backdrop-blur-xl border border-white/5 shadow-[0_0_20px_rgba(124,58,237,0.1)]' : 'bg-white shadow-lg border border-gray-100'
             ]">
-                <div v-if="postStore.isDark" class="absolute -top-24 -right-24 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 text-blue-500 shadow-inner">
+                <div v-if="postStore.isDark" class="absolute -top-24 -right-24 w-64 h-64 bg-[#7c3aed]/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="w-12 h-12 rounded-xl bg-[#7c3aed]/20 flex items-center justify-center border border-[#7c3aed]/30 text-[#7c3aed] shadow-inner">
                     <Icon icon="mdi:chart-timeline-variant" class="text-3xl" />
                 </div>
                 <div>
@@ -42,22 +42,22 @@ onMounted(() => {
                     :value="postStore.PostCount"
                     subtitle="All time"
                     icon="mdi:file-document-outline"
-                    gradientClass="from-blue-500 to-indigo-500"
-                    iconColorClass="text-blue-500" />
+                    gradientClass="from-blue-500 to-[#d2bbff]"
+                    iconColorClass="text-blue-400" />
                 <DashboardCard
                     title="This Month"
                     :value="postStore.MonthlyPostCount"
                     :subtitle="postStore.GetCurrentMonth + ' ' + postStore.GetCurrentYear"
                     icon="mdi:calendar-month"
-                    gradientClass="from-purple-500 to-pink-500"
-                    iconColorClass="text-purple-400" />
+                    gradientClass="from-[#ffade1] to-purple-500"
+                    iconColorClass="text-[#ffade1]" />
                 <DashboardCard
                     title="Unique Tags"
                     :value="postStore.UniqueTagCount"
                     subtitle="Categories created"
                     icon="mdi:tag-multiple-outline"
-                    gradientClass="from-teal-400 to-emerald-500"
-                    iconColorClass="text-teal-400" />
+                    gradientClass="from-teal-500 to-[#00f4fe]"
+                    iconColorClass="text-[#00f4fe]" />
             </div>
             
             <!-- Charts -->

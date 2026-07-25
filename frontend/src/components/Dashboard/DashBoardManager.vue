@@ -114,15 +114,15 @@ onMounted(() => {
 
 <template>
     <section
-        :class="postStore.isDark ? 'bg-[#1e293b]/60 backdrop-blur-xl text-dash-on-surface border-white/5' : 'bg-white text-gray-800 shadow-lg border-gray-100'"
+        :class="postStore.isDark ? 'bg-[#292839]/60 backdrop-blur-xl text-dash-on-surface border-white/5' : 'bg-white text-gray-800 shadow-lg border-gray-100'"
         class="border w-full rounded-xl mt-6 overflow-hidden transition-all duration-300">
 
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 border-b"
             :class="postStore.isDark ? 'border-gray-700' : 'border-gray-200'">
             <div class="flex items-center gap-3">
-                <div class="bg-indigo-600 rounded-xl p-3">
-                    <Icon icon="mdi:table-edit" class="h-6 w-6 text-white" />
+                <div :class="postStore.isDark ? 'bg-[#7c3aed]/20 border border-[#7c3aed]/30' : 'bg-indigo-600'" class="rounded-xl p-3">
+                    <Icon icon="mdi:table-edit" :class="postStore.isDark ? 'text-[#7c3aed]' : 'text-white'" class="h-6 w-6" />
                 </div>
                 <div>
                     <h2 class="text-xl font-semibold">Posts</h2>
@@ -139,9 +139,9 @@ onMounted(() => {
                     type="text"
                     placeholder="Search posts..."
                     :class="postStore.isDark
-                        ? 'bg-[#0f172a] border-gray-600 text-white placeholder-gray-500'
+                        ? 'bg-black/20 border-white/10 text-[#e3e0f6] placeholder-[#ccc3d8]/50'
                         : 'bg-gray-100 border-gray-300 text-black placeholder-gray-400'"
-                    class="w-full pl-10 pr-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                    class="w-full pl-10 pr-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-[#7c3aed]" />
             </div>
         </div>
 
@@ -149,8 +149,8 @@ onMounted(() => {
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>
-                    <tr :class="postStore.isDark ? 'bg-[#0f172a] text-gray-400' : 'bg-gray-50 text-gray-500'"
-                        class="text-left text-xs uppercase tracking-wider">
+                    <tr :class="postStore.isDark ? 'bg-[#292839]/30 text-[#ccc3d8] border-white/5' : 'bg-gray-50 text-gray-500'"
+                        class="text-left text-xs uppercase tracking-wider border-b">
                         <th class="px-6 py-4 font-medium w-1/3">Title</th>
                         <th class="px-6 py-4 font-medium hidden md:table-cell">Content Preview</th>
                         <th class="px-6 py-4 font-medium hidden lg:table-cell">Tags</th>
@@ -182,9 +182,9 @@ onMounted(() => {
                             <!-- View Row -->
                             <tr v-if="editingPostId !== post._id"
                                 :class="postStore.isDark
-                                    ? 'border-gray-700 hover:bg-[#0f172a]'
+                                    ? 'border-white/5 hover:bg-white/5'
                                     : 'border-gray-100 hover:bg-gray-50'"
-                                class="border-b transition-colors">
+                                class="border-b transition-colors group">
                                 <td class="px-6 py-4 font-medium">{{ post.title }}</td>
                                 <td class="px-6 py-4 text-gray-400 hidden md:table-cell max-w-xs">
                                     <span class="line-clamp-2">{{ post.content }}</span>
@@ -194,7 +194,7 @@ onMounted(() => {
                                         <span
                                             v-for="tag in post.tags.slice(0, 3)"
                                             :key="tag"
-                                            :class="postStore.isDark ? 'bg-indigo-900 text-indigo-300' : 'bg-indigo-50 text-indigo-600'"
+                                            :class="postStore.isDark ? 'bg-[#7c3aed]/20 text-[#d2bbff]' : 'bg-indigo-50 text-indigo-600'"
                                             class="px-2 py-0.5 rounded-md text-xs font-medium">
                                             #{{ tag }}
                                         </span>
@@ -212,7 +212,7 @@ onMounted(() => {
                                         <button
                                             @click="startEditing(post)"
                                             :class="postStore.isDark
-                                                ? 'bg-indigo-900 hover:bg-indigo-700 text-indigo-300'
+                                                ? 'bg-[#7c3aed]/20 text-[#d2bbff] hover:bg-[#7c3aed]/40 border border-[#7c3aed]/30'
                                                 : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-600'"
                                             class="p-2 rounded-lg transition-colors cursor-pointer"
                                             title="Edit post">
@@ -221,7 +221,7 @@ onMounted(() => {
                                         <button
                                             @click="confirmDelete(post._id)"
                                             :class="postStore.isDark
-                                                ? 'bg-red-900/40 hover:bg-red-800 text-red-400'
+                                                ? 'bg-[#93000a]/20 text-[#ffb4ab] hover:bg-[#93000a]/40 border border-[#ffb4ab]/30'
                                                 : 'bg-red-50 hover:bg-red-100 text-red-500'"
                                             class="p-2 rounded-lg transition-colors cursor-pointer"
                                             title="Delete post">

@@ -50,7 +50,7 @@ const chartData = computed(() => {
 
     const labels = Array.from({ length: days }, (_, i) => getLabel(i, days));
 
-    const mainColor = '#8b5cf6'; // tailwind violet-500
+    const mainColor = '#d2bbff'; // Moonlit Thoughts primary
     
     return {
         labels,
@@ -62,8 +62,8 @@ const chartData = computed(() => {
                 backgroundColor: (context) => {
                     const ctx = context.chart.ctx;
                     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-                    gradient.addColorStop(0, 'rgba(139, 92, 246, 0.4)');
-                    gradient.addColorStop(1, 'rgba(139, 92, 246, 0.0)');
+                    gradient.addColorStop(0, 'rgba(210, 187, 255, 0.4)');
+                    gradient.addColorStop(1, 'rgba(210, 187, 255, 0.0)');
                     return gradient;
                 },
                 borderWidth: 2,
@@ -152,14 +152,14 @@ const chartOptions = computed(() => ({
 <template>
     <div :class="[
         'rounded-xl p-6 flex flex-col gap-6 transition-all',
-        postStore.isDark ? 'bg-[#1e293b]/60 backdrop-blur-xl border border-white/5' : 'bg-white shadow-lg border border-gray-100'
+        postStore.isDark ? 'bg-[#292839]/60 backdrop-blur-xl border border-white/5' : 'bg-white shadow-lg border border-gray-100'
     ]">
         <div class="flex items-center justify-between border-b pb-4" :class="postStore.isDark ? 'border-white/5' : 'border-gray-100'">
             <div class="flex items-center gap-2">
-                <Icon icon="mdi:chart-line-variant" class="text-blue-500 text-2xl" />
+                <Icon icon="mdi:chart-line-variant" class="text-[#d2bbff] text-2xl" />
                 <h3 :class="postStore.isDark ? 'text-dash-on-surface' : 'text-gray-800'" class="font-semibold text-lg tracking-wide">Post Activity</h3>
             </div>
-            <select v-model="timeRange" :class="postStore.isDark ? 'bg-[#121221] border-white/10 text-dash-on-surface-variant' : 'bg-gray-50 border-gray-200 text-gray-600'" class="border rounded-md text-sm p-1.5 outline-none focus:ring-2 focus:ring-blue-500">
+            <select v-model="timeRange" :class="postStore.isDark ? 'bg-[#121221] border-white/10 text-dash-on-surface-variant' : 'bg-gray-50 border-gray-200 text-gray-600'" class="border rounded-md text-sm p-1.5 outline-none focus:ring-2 focus:ring-[#d2bbff]">
                 <option value="7days">Last 7 Days</option>
                 <option value="30days">Last 30 Days</option>
             </select>
