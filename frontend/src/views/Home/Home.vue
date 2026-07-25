@@ -1,99 +1,77 @@
 <script setup>
 import { useAuthStore } from '@/stores/authStore';
 import { usePostStore } from '@/stores/postsStore';
-import { useImageStore } from '@/stores/imageStore';
 import CreatePost from '@/components/CreatePost.vue';
 import Posts from '@/components/Posts.vue';
-import { ref } from 'vue';
-import { useToast } from 'vue-toastification';
-import defaultImg from '@/images/default.jpg';
+import ProfileCard from '@/components/Home/ProfileCard.vue';
+import SpaceStats from '@/components/Home/SpaceStats.vue';
+import PopularTopics from '@/components/Home/PopularTopics.vue';
 
 const authStore = useAuthStore();
 const postStore = usePostStore();
-const imageStore = useImageStore();
-const toast = useToast();
-
-const fileInput = ref(null);
-const loading = ref(false);
-//triggers file picker
-const triggerFilePicker = () => {
-    fileInput.value.click();
-
-}
-const uploadImage = async (event) => {
-    //event target that targets the file input
-    const file = event.target.files[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-        toast.error('Please select a valid image file.');
-        return;
-    }
-    loading.value = true;
-
-    if (loading.value) {
-        toast.info('Uploading image, please wait...');
-    }
-    try {
-        const result = await imageStore.uploadImage(file);
-
-        if (result.success) {
-            toast.success('Image uploaded successfully!');
-        } else {
-            toast.error('Image upload failed: ' + result.message);
-        }
-    } catch (error) {
-        console.error('Image upload failed:', error);
-        return null; 
-    }finally {
-        loading.value = false;
-    }
-
-    event.target.value = '';
-}
-
 </script>
+
 <template>
-    <div :class="postStore.isDark ? 'bg-[#121221] text-[#e3e0f6]' : 'bg-white text-black'" class="min-h-screen flex flex-col transition-colors duration-300">
-        <div class="flex flex-col lg:flex-row pt-24 md:pt-28 lg:pt-32 px-4 sm:px-8 md:px-16 lg:px-30 gap-6 lg:gap-10">
-            <div :class="['hidden xl:block max-w-md w-full', authStore.isOwner ? 'order-2' : 'order-1']">
-                <div :class="[postStore.isDark ? 'bg-[#1e293b]/60 backdrop-blur-xl border border-white/5 shadow-[0_0_20px_rgba(124,58,237,0.1)]' : 'bg-white shadow-2xl', 'rounded-3xl overflow-hidden']">
-                    <div class="h-32 bg-gradient-to-r from-[#7c3aed] to-[#00f4fe]">
-                        <input ref="fileInput" type="file" accept="image/*" @change="uploadImage" class="hidden"/>
+    <div :class="postStore.isDark ? 'bg-[#121221] text-[#e3e0f6]' : 'bg-gray-50 text-gray-900'" class="min-h-screen flex flex-col transition-colors duration-300 relative overflow-hidden">
+        
+        <!-- Ambient Background -->
+        <div v-if="postStore.isDark" class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+            <div class="absolute inset-0 bg-[#121221]"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,var(--tw-gradient-stops))] from-[#2e1065] via-[#121221] to-[#121221] opacity-50"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,var(--tw-gradient-stops))] from-[#4c1d95] via-transparent to-transparent opacity-40"></div>
+            <div class="absolute -top-24 -left-24 w-[600px] h-[600px] bg-[#4338ca] rounded-full blur-[150px] opacity-20 mix-blend-screen"></div>
+            <div class="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#7c3aed] rounded-full blur-[150px] opacity-10 mix-blend-screen"></div>
+            <div class="absolute bottom-0 left-1/4 w-[700px] h-[700px] bg-[#06b6d4] rounded-full blur-[150px] opacity-10 mix-blend-screen"></div>
+        </div>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 mt-16 px-4 md:px-12 py-12 max-w-[1440px] mx-auto w-full relative z-10">
+            <!-- Hero Section -->
+            <section class="mb-16 text-center md:text-left relative py-12">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border mb-6"
+                    :class="postStore.isDark ? 'bg-[#7c3aed]/10 border-[#d2bbff]/20' : 'bg-purple-100 border-purple-200'">
+                    <span class="w-2 h-2 rounded-full animate-pulse" :class="postStore.isDark ? 'bg-[#d2bbff]' : 'bg-purple-600'"></span>
+                    <span class="text-sm font-medium" :class="postStore.isDark ? 'text-[#d2bbff]' : 'text-purple-700'">New Space Available</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4 max-w-3xl leading-tight">
+                    Documenting the journey, <br class="hidden md:block"/>
+                    <span :class="postStore.isDark ? 'bg-gradient-to-r from-[#d2bbff] to-[#ffade1] text-transparent bg-clip-text' : 'text-purple-600'">one post at a time.</span>
+                </h1>
+                <p :class="postStore.isDark ? 'text-[#ccc3d8]' : 'text-gray-600'" class="text-lg md:text-xl max-w-2xl mb-8 leading-relaxed">
+                    A personal sanctuary for digital expression, development logs, and random thoughts traversing the neon-lit void.
+                </p>
+            </section>
+
+            <!-- Bento Grid Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Main Feed Column (Left) -->
+                <div class="lg:col-span-8 flex flex-col gap-6">
+                    <!-- Create Post -->
+                    <div v-if="authStore.isOwner" class="w-full">
+                        <CreatePost />
                     </div>
-                    
-                    <div class="px-8 pb-8 pt-4 relative">
-                        <div class="absolute -top-16 left-8">
-                            <div :class="authStore.isOwner ? 'relative cursor-pointer group' : 'relative cursor-default'"
-                                @click="authStore.isOwner ? triggerFilePicker() : null">
-                                <img :src="imageStore.image || defaultImg" alt='Profile' 
-                                    :class="['h-32 w-32 rounded-full object-cover border-4 shadow-xl',
-                                        postStore.isDark ? 'border-[#121221]' : 'border-white',
-                                        authStore.isOwner ? 'group-hover:opacity-90 transition-opacity' : ''
-                                    ]"/>
-                                <div  v-if="authStore.isOwner"
-                                    class="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <span class="text-white text-2xl">📷</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div :class="[postStore.isDark ? 'text-[#e3e0f6]' : 'text-black', 'mt-20']">
-                            <h2 class="text-2xl font-bold mb-2 tracking-tight">Miq</h2>
-                            <p :class="postStore.isDark ? 'text-[#ccc3d8]' : 'text-gray-500'" class="text-sm leading-relaxed">
-                                Currently a College Student, Web Developer by passion, and lifelong learner. Documenting my journey one post at a time.
-                            </p>
-                        </div>
+
+                    <div class="flex items-center justify-between mb-2 mt-4">
+                        <h2 class="text-2xl font-bold tracking-tight" :class="postStore.isDark ? 'text-[#e3e0f6]' : 'text-gray-900'">Recent Thoughts</h2>
+                    </div>
+
+                    <!-- Feed -->
+                    <div class="w-full">
+                        <Posts />
                     </div>
                 </div>
+
+                <!-- Sidebar Column (Right) -->
+                <div class="lg:col-span-4 flex flex-col gap-6">
+                    <ProfileCard />
+                    <SpaceStats />
+                    <PopularTopics />
+                </div>
             </div>
-            <div :class="[authStore.isOwner ? 'block order-1' : 'hidden', 'w-full lg:flex-1']">
-                <CreatePost />
-            </div>
-        </div>
-        
-        <div class="px-4 sm:px-8 md:px-16 lg:px-30 grid" :class="authStore.isGuest ? 'pt-10 md:pt-20 lg:pt-30' : 'pt-8 md:pt-12 lg:pt-15'">
-            <Posts />
-        </div>
+        </main>
     </div>
 </template>
+
+<style scoped>
+</style>
