@@ -2,9 +2,36 @@
 import { computed, ref } from 'vue';
 import { usePostStore } from '@/stores/postsStore';
 import { Icon } from '@iconify/vue';
+import { Line } from 'vue-chartjs';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Filler
+);
 
 const postStore = usePostStore();
 const timeRange = ref('7days'); // '7days' or '30days'
+
+const getLabel = (index, days) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (days - 1 - index));
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+};
 
 const chartData = computed(() => {
     const days = timeRange.value === '7days' ? 7 : 30;
@@ -17,32 +44,109 @@ const chartData = computed(() => {
         const diffTime = Math.abs(today - postDate);
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         if (diffDays < days) {
-            counts[days - 1 - diffDays]++; // index 0 is oldest, index (days-1) is today
+            counts[days - 1 - diffDays]++;
         }
     });
 
-    const maxVal = Math.max(...counts, 1);
-    const stepX = 100 / (days - 1);
+    const labels = Array.from({ length: days }, (_, i) => getLabel(i, days));
+
+    const mainColor = '#8b5cf6'; // tailwind violet-500
     
-    const points = counts.map((count, i) => {
-        const x = i * stepX;
-        const y = 80 - (count / maxVal) * 60; // range 20 to 80 vertically
-        return { x, y, count };
-    });
-    
-    const lineStr = points.map(p => `${p.x},${p.y}`).join(' L');
-    const path = `M0,100 L0,${points[0].y} L${lineStr} L100,100 Z`;
-    const linePath = `M${lineStr}`;
-    
-    return { points, path, linePath, maxVal };
+    return {
+        labels,
+        datasets: [
+            {
+                label: 'Posts',
+                data: counts,
+                borderColor: mainColor,
+                backgroundColor: (context) => {
+                    const ctx = context.chart.ctx;
+                    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+                    gradient.addColorStop(0, 'rgba(139, 92, 246, 0.4)');
+                    gradient.addColorStop(1, 'rgba(139, 92, 246, 0.0)');
+                    return gradient;
+                },
+                borderWidth: 2,
+                pointBackgroundColor: mainColor,
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: mainColor,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                fill: true,
+                tension: 0.4,
+            }
+        ]
+    };
 });
 
-const getLabel = (index) => {
-    const days = timeRange.value === '7days' ? 7 : 30;
-    const d = new Date();
-    d.setDate(d.getDate() - (days - 1 - index));
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-};
+const chartOptions = computed(() => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: {
+            display: false
+        },
+        tooltip: {
+            backgroundColor: postStore.isDark ? '#1e293b' : '#ffffff',
+            titleColor: postStore.isDark ? '#e3e0f6' : '#1f2937',
+            bodyColor: postStore.isDark ? '#ccc3d8' : '#4b5563',
+            borderColor: postStore.isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+            borderWidth: 1,
+            padding: 10,
+            displayColors: false,
+            callbacks: {
+                label: function(context) {
+                    return `${context.parsed.y} posts`;
+                }
+            }
+        }
+    },
+    scales: {
+        y: {
+            beginAtZero: true,
+            grid: {
+                display: false,
+                drawBorder: false,
+            },
+            ticks: {
+                color: postStore.isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.4)',
+                font: {
+                    family: 'Inter, sans-serif',
+                    size: 11
+                },
+                precision: 0,
+                maxTicksLimit: 5
+            },
+            border: {
+                display: false
+            }
+        },
+        x: {
+            grid: {
+                color: postStore.isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
+                drawBorder: false,
+            },
+            ticks: {
+                color: postStore.isDark ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.4)',
+                font: {
+                    family: 'Inter, sans-serif',
+                    size: 11
+                },
+                maxTicksLimit: timeRange.value === '7days' ? 7 : 6,
+                maxRotation: 0,
+                minRotation: 0,
+            },
+            border: {
+                display: false
+            }
+        }
+    },
+    interaction: {
+        intersect: false,
+        mode: 'index',
+    },
+}));
 </script>
 
 <template>
@@ -61,32 +165,8 @@ const getLabel = (index) => {
             </select>
         </div>
         
-        <div class="h-64 w-full relative flex items-end gap-2 pb-6">
-            <div :class="postStore.isDark ? 'text-dash-on-surface-variant/50' : 'text-gray-400'" class="absolute left-0 top-0 h-full flex flex-col justify-between text-xs pb-6">
-                <span>{{ chartData.maxVal }}</span>
-                <span>{{ Math.round(chartData.maxVal * 0.5) }}</span>
-                <span>0</span>
-            </div>
-            <div class="ml-6 w-full h-full relative border-b border-l" :class="postStore.isDark ? 'border-white/10' : 'border-gray-200'">
-                <svg class="absolute bottom-0 left-0 w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
-                    <defs>
-                        <linearGradient id="line-gradient" x1="0" x2="0" y1="0" y2="1">
-                            <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.3"></stop>
-                            <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"></stop>
-                        </linearGradient>
-                    </defs>
-                    <path :d="chartData.linePath" fill="none" stroke="#8b5cf6" stroke-width="2" vector-effect="non-scaling-stroke"></path>
-                    <path :d="chartData.path" fill="url(#line-gradient)"></path>
-                    <circle v-for="(p, i) in chartData.points" :key="i" :cx="p.x" :cy="p.y" fill="#8b5cf6" r="3" class="hover:r-5 transition-all cursor-pointer">
-                        <title>{{ p.count }} posts on {{ getLabel(i) }}</title>
-                    </circle>
-                </svg>
-                <div class="absolute -bottom-6 left-0 w-full flex justify-between text-xs" :class="postStore.isDark ? 'text-dash-on-surface-variant/50' : 'text-gray-400'">
-                    <span>{{ getLabel(0) }}</span>
-                    <span>{{ getLabel(Math.floor((timeRange === '7days' ? 6 : 29) / 2)) }}</span>
-                    <span>{{ getLabel(timeRange === '7days' ? 6 : 29) }}</span>
-                </div>
-            </div>
+        <div class="h-64 w-full relative">
+            <Line :data="chartData" :options="chartOptions" />
         </div>
     </div>
 </template>
