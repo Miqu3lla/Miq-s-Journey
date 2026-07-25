@@ -49,7 +49,10 @@ const topTags = computed(() => {
             <div v-if="topTags.length === 0" class="text-center py-8" :class="postStore.isDark ? 'text-dash-on-surface-variant' : 'text-gray-400'">
                 No tags found.
             </div>
-            <div v-for="tag in topTags" :key="tag.name" class="flex flex-col gap-2">
+            <div v-for="tag in topTags" :key="tag.name" 
+                 @click="postStore.toggleFilterTag(tag.name)"
+                 class="flex flex-col gap-2 cursor-pointer transition-all p-2 rounded-lg -mx-2 hover:bg-black/5"
+                 :class="postStore.selectedTag === tag.name ? (postStore.isDark ? 'bg-white/5 ring-1 ring-white/10' : 'bg-black/5 ring-1 ring-black/10') : ''">
                 <div class="flex justify-between text-sm">
                     <span :class="postStore.isDark ? 'text-dash-on-surface' : 'text-gray-700'" class="font-medium capitalize">{{ tag.name }}</span>
                     <span :class="postStore.isDark ? 'text-dash-on-surface-variant' : 'text-gray-500'">{{ tag.count }} posts</span>

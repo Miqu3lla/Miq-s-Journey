@@ -12,6 +12,7 @@ const error = ref(null) // Error message storage
 const loading = ref(false) // Loading state for async operations
 const isGrid = ref(false) // View mode state
 const isDark = ref(localStorage.getItem('isDarkMode') === 'true')
+const selectedTag = ref(null) // Filter by tag
 
 // Getters 
 
@@ -173,12 +174,21 @@ const deletePost = async (postID) => {
         loading.value = false
     }
 }
+
+const toggleFilterTag = (tag) => {
+    if (selectedTag.value === tag) {
+        selectedTag.value = null
+    } else {
+        selectedTag.value = tag
+    }
+}
 return {
     posts,
     error,
     loading,
     isGrid,
     isDark,
+    selectedTag,
 
     //getters
     isGridView,
@@ -194,6 +204,7 @@ return {
     viewPosts,
     editPost,
     deletePost,
+    toggleFilterTag,
     
     
     

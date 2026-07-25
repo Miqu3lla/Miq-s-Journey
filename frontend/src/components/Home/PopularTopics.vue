@@ -33,13 +33,17 @@ const topTags = computed(() => {
             <div v-if="topTags.length === 0" :class="postStore.isDark ? 'text-[#ccc3d8]' : 'text-gray-400'" class="text-sm py-2">
                 No topics found.
             </div>
-            <a v-for="tag in topTags" :key="tag.name" href="#" 
-               :class="postStore.isDark 
-                   ? 'bg-[#343344]/50 hover:bg-[#7c3aed]/20 border-transparent hover:border-[#d2bbff]/30 text-[#ccc3d8] hover:text-[#d2bbff]' 
-                   : 'bg-gray-100 hover:bg-indigo-50 border-transparent hover:border-indigo-200 text-gray-600 hover:text-indigo-600'"
-               class="px-3 py-1.5 rounded-md border transition-all text-sm font-medium">
+            <button v-for="tag in topTags" :key="tag.name" 
+               @click="postStore.toggleFilterTag(tag.name)"
+               :class="[
+                   postStore.isDark 
+                       ? 'bg-[#343344]/50 hover:bg-[#7c3aed]/20 border-transparent hover:border-[#d2bbff]/30 text-[#ccc3d8] hover:text-[#d2bbff]' 
+                       : 'bg-gray-100 hover:bg-indigo-50 border-transparent hover:border-indigo-200 text-gray-600 hover:text-indigo-600',
+                   postStore.selectedTag === tag.name ? (postStore.isDark ? 'ring-1 ring-[#d2bbff] !bg-[#7c3aed]/20 !text-[#d2bbff]' : 'ring-1 ring-indigo-500 !bg-indigo-50 !text-indigo-600') : ''
+               ]"
+               class="px-3 py-1.5 rounded-md border transition-all text-sm font-medium cursor-pointer">
                 #{{ tag.name }} ({{ tag.count }})
-            </a>
+            </button>
         </div>
     </div>
 </template>
