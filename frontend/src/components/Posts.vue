@@ -4,34 +4,29 @@ import { ref, computed, onMounted} from 'vue';
 import { useToast } from 'vue-toastification';
 import { Icon } from '@iconify/vue';
 import { useAuthStore } from '@/stores/authStore';
-// Initialize stores and utilities
+
 const postStore = usePostStore();
 const authStore = useAuthStore();
 const toast = useToast();
 
-// Track which post is being edited
 const editingPostId = ref(null);
 const newTitle = ref('');
 const newContent = ref('');
 const newTags = ref('');
 
-// Toggle edit mode
 const startEditing = (post) => {
     editingPostId.value = post._id;
     newTitle.value = post.title;
     newContent.value = post.content;
     newTags.value = post.tags.join(', ');
-
 }
 
 const cancelEdit = () => {
-
     editingPostId.value = null;
     newTitle.value = '';
     newContent.value = '';
     newTags.value = '';
 }
-
 
 const editPost = async (postID) => {
     try { 
@@ -72,24 +67,31 @@ const confirmDelete = (postID) => {
     }
 }
 
-// Computed property to sort posts by creation date (newest first)
 const sortedPosts = computed(() => {
     return [...postStore.posts].sort((a, b) => 
         new Date(b.createdAt) - new Date(a.createdAt)
     );
 });
 
-
-// Format date to display as "Jan 1" format
 const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
+        year: 'numeric'
     })
 }
 
-// Fetch posts when component is mounted
+const getTagColorClass = (index, isDark) => {
+    if (!isDark) return 'bg-purple-100 border-purple-200 text-purple-700';
+    const colors = [
+        'bg-[#ffade1]/10 border-[#ffade1]/20 text-[#ffade1]', // tertiary
+        'bg-[#00f4fe]/10 border-[#00f4fe]/20 text-[#00f4fe]', // secondary
+        'bg-[#d2bbff]/10 border-[#d2bbff]/20 text-[#d2bbff]', // primary
+    ];
+    return colors[index % colors.length];
+}
+
 onMounted(async () => {
     try {
         await postStore.viewPosts();
@@ -104,65 +106,97 @@ onMounted(async () => {
         name="layout"
         tag="div"
         class="w-full max-w-4xl"
-        :class="postStore.isGrid ? 'grid grid-cols-2 gap-4' : 'flex flex-col'">
+        :class="postStore.isGrid ? 'grid grid-cols-2 gap-4' : 'flex flex-col gap-6'">
         
-        <div 
+        <article 
             v-for="post in sortedPosts" 
             :key="post._id"
-            class="mb-4 p-4 pl-5 w-full hover:scale-101 transition-transform"
+            class="rounded-xl p-6 transition-all duration-300 transform hover:-translate-y-1 group shadow-xl border w-full relative"
             :class="[
                 postStore.isDark 
-                    ? 'bg-[#1e293b]/60 backdrop-blur-xl text-[#e3e0f6] border border-white/5 rounded-3xl shadow-[0_0_15px_rgba(124,58,237,0.05)]' 
-                    : 'bg-white text-black rounded-lg shadow-md hover:shadow-2xl hover:scale-105',
-                    'hover:border-[#7c3aed]/50 transition-all duration-300'
+                    ? 'bg-[#0d0d1c]/40 backdrop-blur-2xl border-white/20 hover:shadow-[0_0_30px_rgba(210,187,255,0.05)]' 
+                    : 'bg-white border-gray-200 hover:shadow-2xl'
             ]">
             
             <!-- View Mode -->
             <div v-if="editingPostId !== post._id">
-                <div class="flex justify-between items-center mb-2">
-                    <h1>{{ post.title }}</h1>
-                    <div v-if="authStore.isOwner" class="flex gap-3">
-                        <Icon @click="startEditing(post)" icon="mdi:pencil" class="h-5 w-5 text-gray-400 hover:text-[#00f4fe] cursor-pointer transition-colors" title="Edit post"/>
-                        <Icon @click= "confirmDelete(post._id)"icon="mdi:delete" class="h-5 w-5 text-gray-400 hover:text-red-500 cursor-pointer transition-colors" title="Delete post"/>
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold"
+                             :class="postStore.isDark ? 'bg-[#343344] text-[#ccc3d8]' : 'bg-gray-100 text-gray-500'">
+                            {{ post.title ? post.title.charAt(0).toUpperCase() : 'U' }}
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-base" :class="postStore.isDark ? 'text-[#e3e0f6]' : 'text-gray-900'">{{ post.title || 'Unknown' }}</h3>
+                            <p class="text-xs flex items-center gap-1" :class="postStore.isDark ? 'text-[#ccc3d8]/70' : 'text-gray-500'">
+                                <Icon icon="mdi:calendar-blank" class="text-sm" />
+                                {{ formatDate(post.createdAt) }}
+                            </p>
+                        </div>
+                    </div>
+                    <div v-if="authStore.isOwner" class="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+                        <button @click="startEditing(post)" class="p-1 rounded-md transition-colors" :class="postStore.isDark ? 'text-[#ccc3d8] hover:text-[#00f4fe] hover:bg-white/5' : 'text-gray-400 hover:text-purple-600 hover:bg-gray-100'">
+                            <Icon icon="mdi:pencil" class="text-lg" />
+                        </button>
+                        <button @click="confirmDelete(post._id)" class="p-1 rounded-md transition-colors" :class="postStore.isDark ? 'text-[#ccc3d8] hover:text-red-400 hover:bg-white/5' : 'text-gray-400 hover:text-red-500 hover:bg-gray-100'">
+                            <Icon icon="mdi:delete" class="text-lg" />
+                        </button>
                     </div>
                 </div>
-                <div class ='flex text-gray-500 mb-5'>
-                    <Icon icon="mdi:calendar-blank-outline" class="h-5 w-5 mr-1"/>
-                    <h1>{{ formatDate(post.createdAt) }}</h1>
-                </div>
-                <h1 class = 'mb-10'>{{ post.content }}</h1>
-                <div v-if="post.tags.length >= 1 "class = 'flex justify-start gap-1'>
-                    <h1 v-for="tag in post.tags.slice(0,99)" :class="postStore.isDark? 'bg-[#7c3aed]/20 text-[#d2bbff]' : 'bg-indigo-100 text-indigo-700'" class="rounded-md p-2 font-medium">#{{ tag }}</h1>
+                
+                <h4 class="text-xl font-bold mb-2 transition-colors" :class="postStore.isDark ? 'text-[#e3e0f6] group-hover:text-[#d2bbff]' : 'text-gray-900 group-hover:text-purple-600'">
+                    {{ post.title }}
+                </h4>
+                
+                <p class="mb-6 whitespace-pre-wrap leading-relaxed text-sm md:text-base" :class="postStore.isDark ? 'text-[#ccc3d8]' : 'text-gray-600'">
+                    {{ post.content }}
+                </p>
+                
+                <div v-if="post.tags && post.tags.length > 0" class="flex flex-wrap gap-2">
+                    <span v-for="(tag, index) in post.tags" :key="tag" 
+                          class="px-3 py-1 rounded-full border text-xs font-medium"
+                          :class="getTagColorClass(index, postStore.isDark)">
+                        #{{ tag }}
+                    </span>
                 </div>
             </div>
 
             <!-- Edit Mode -->
             <div v-else>
-                <div class="flex justify-between items-center mb-4">
-                    <h1 class="font-medium text-lg">Edit Post</h1>
-                    <Icon @click="cancelEdit" icon="mdi:close" class="h-6 w-6 text-gray-400 hover:text-red-500 cursor-pointer transition-colors" title="Cancel"/>
+                <div class="flex justify-between items-center mb-4 border-b pb-2" :class="postStore.isDark ? 'border-white/10' : 'border-gray-200'">
+                    <h1 class="font-medium text-lg" :class="postStore.isDark ? 'text-[#d2bbff]' : 'text-purple-600'">Edit Thought</h1>
+                    <button @click="cancelEdit" class="transition-colors" :class="postStore.isDark ? 'text-gray-400 hover:text-red-400' : 'text-gray-400 hover:text-red-500'">
+                        <Icon icon="mdi:close" class="text-xl" />
+                    </button>
                 </div>
-                    <form @submit.prevent="editPost(post._id)">
-                    <input v-model="newTitle" type="text" placeholder="Post Title..."
-                        :class="postStore.isDark ? 'bg-[#121221] border-[#343344] text-[#e3e0f6] focus:ring-[#7c3aed]' : 'bg-white border-gray-300 focus:ring-indigo-500'"
-                        class="w-full border p-2 rounded-md mb-4 focus:outline-none focus:ring-2 transition-colors"/>
-                    <textarea v-model="newContent" placeholder="What's on your mind?"
-                        :class="postStore.isDark ? 'bg-[#121221] border-[#343344] text-[#e3e0f6] focus:ring-[#7c3aed]' : 'bg-white border-gray-300 focus:ring-indigo-500'"
-                        class="w-full border p-2 rounded-md h-30 mb-4 resize-none focus:outline-none focus:ring-2 transition-colors"></textarea>
-                    <input v-model="newTags" type="text" placeholder="Tags (comma separated)..."
-                        :class="postStore.isDark ? 'bg-[#121221] border-[#343344] text-[#e3e0f6] focus:ring-[#7c3aed]' : 'bg-white border-gray-300 focus:ring-indigo-500'"
-                        class="w-full border p-2 rounded-md mb-4 focus:outline-none focus:ring-2 transition-colors"/>
-                    <div class='flex justify-end gap-3'>
+                <form @submit.prevent="editPost(post._id)">
+                    <div class="space-y-4">
+                        <input v-model="newTitle" type="text" placeholder="Title..."
+                            :class="postStore.isDark ? 'bg-[#292839]/20 border-white/5 text-[#e3e0f6] focus:border-[#d2bbff]/40 focus:ring-[#d2bbff]/40' : 'bg-gray-50 border-gray-200 text-gray-900 focus:border-purple-400 focus:ring-purple-400'"
+                            class="w-full border p-3 rounded-xl focus:outline-none focus:ring-1 transition-all"/>
+                        
+                        <textarea v-model="newContent" placeholder="Content..."
+                            :class="postStore.isDark ? 'bg-[#292839]/20 border-white/5 text-[#e3e0f6] focus:border-[#d2bbff]/40 focus:ring-[#d2bbff]/40' : 'bg-gray-50 border-gray-200 text-gray-900 focus:border-purple-400 focus:ring-purple-400'"
+                            class="w-full border p-3 rounded-xl h-32 resize-none focus:outline-none focus:ring-1 transition-all"></textarea>
+                        
+                        <input v-model="newTags" type="text" placeholder="Tags (comma separated)..."
+                            :class="postStore.isDark ? 'bg-[#292839]/20 border-white/5 text-[#e3e0f6] focus:border-[#d2bbff]/40 focus:ring-[#d2bbff]/40' : 'bg-gray-50 border-gray-200 text-gray-900 focus:border-purple-400 focus:ring-purple-400'"
+                            class="w-full border p-3 rounded-xl focus:outline-none focus:ring-1 transition-all"/>
+                    </div>
+                    
+                    <div class="flex justify-end gap-3 mt-6">
                         <button type="button" @click="cancelEdit"
-                            :class="postStore.isDark ? 'bg-gray-600 hover:bg-gray-500' : 'bg-gray-300 hover:bg-gray-400'"
-                            class="px-6 py-2 rounded-md text-white font-medium cursor-pointer transition-colors">Cancel</button>
+                            :class="postStore.isDark ? 'bg-white/5 hover:bg-white/10 text-[#ccc3d8]' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'"
+                            class="px-6 py-2 rounded-full font-medium transition-colors text-sm">Cancel</button>
                         <button type="submit"
-                            :class="postStore.isDark ? 'bg-[#7c3aed] hover:bg-[#6d28d9] shadow-[0_0_10px_rgba(124,58,237,0.3)]' : 'bg-indigo-600 hover:bg-indigo-700'"
-                            class="px-6 py-2 rounded-md text-white font-medium cursor-pointer transition-all">Save Changes</button>
+                            :class="postStore.isDark ? 'bg-[#7c3aed] hover:bg-[#6d28d9] text-[#ede0ff] shadow-[#7c3aed]/20' : 'bg-purple-600 hover:bg-purple-700 text-white shadow-purple-500/30'"
+                            class="px-6 py-2 rounded-full font-medium transition-all shadow-lg text-sm flex items-center gap-2">
+                            Save Changes
+                        </button>
                     </div>
                 </form>
             </div>
-        </div>
+        </article>
     </TransitionGroup>
 </template>
 
@@ -170,24 +204,20 @@ onMounted(async () => {
 /* Animate items when they move to new positions */
 .layout-move {
     transition: all 0.5s ease-in-out;
-    
-    
 }
 
 /* Animate items entering */
 .layout-enter-from {
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(0.9) translateY(10px);
 }
 .layout-enter-active {
-    transition: all 0.5s ease-out;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 .layout-enter-to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
 }
-
 
 .layout.leave-from {
     opacity: 1;
@@ -198,12 +228,10 @@ onMounted(async () => {
 .layout-leave-active {
     transition: all 0.5s ease-in;
     position: absolute;
-   
 }
 
 .layout-leave-to {
     opacity: 0;
-    transform: scale(0.8);
-    
+    transform: scale(0.9);
 }
 </style>
