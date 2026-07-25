@@ -1,61 +1,74 @@
 <script setup>
 import { usePostStore } from '@/stores/postsStore';
-import { ref,watch, onMounted} from 'vue';
-import { Icon } from '@iconify/vue';
 import { useAuthStore } from '@/stores/authStore';
-import DashboardCard from './DashboardCard.vue';
-import DashBoardManager from './DashBoardManager.vue';
-const PostStore = usePostStore();
-const AuthStore = useAuthStore();
+import { onMounted } from 'vue';
+import { Icon } from '@iconify/vue';
+import DashboardCard from '@/components/Dashboard/DashboardCard.vue';
+import DashboardChart from '@/components/Dashboard/DashboardChart.vue';
+import PopularTags from '@/components/Dashboard/PopularTags.vue';
+import DashBoardManager from '@/components/Dashboard/DashBoardManager.vue';
 
+const postStore = usePostStore();
+const authStore = useAuthStore();
 
 onMounted(() => {
-    PostStore.viewPosts();
-})
-
-
+    postStore.viewPosts();
+});
 </script>
 
 <template>
-    <main :class="PostStore.isDark ? 'bg-indigo-900  text-white' : 'text-black'"
-class = "pt-35 w-full  min-h-screen">
-        <section :class="PostStore.isDark? 'bg-[#1e293b]' : 'shadow-md '"class =
- ' ml-25 w-auto mr-25 rounded-2xl'>
-            <div class = 'flex p-5  items-center'>
-                <div class = 'bg-indigo-600 rounded-2xl p-4 mt-4 ml-5 mr-3'>
-                    <Icon icon="mdi:chart-line" class="h-8 w-8 "/>
+    <main :class="postStore.isDark ? 'bg-[#121221] text-[#e3e0f6]' : 'bg-gray-50 text-gray-900'" class="min-h-screen pt-24 pb-10 w-full transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 space-y-8">
+            
+            <!-- Dashboard Header -->
+            <div :class="[
+                'rounded-xl p-6 md:p-8 flex items-center gap-4 relative overflow-hidden transition-colors',
+                postStore.isDark ? 'bg-[#1e293b]/80 backdrop-blur-xl border border-white/5 shadow-[0_0_20px_rgba(124,58,237,0.1)]' : 'bg-white shadow-lg border border-gray-100'
+            ]">
+                <div v-if="postStore.isDark" class="absolute -top-24 -right-24 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/30 text-blue-500 shadow-inner">
+                    <Icon icon="mdi:chart-timeline-variant" class="text-3xl" />
                 </div>
-                <div class = 'flex flex-col mt-5'>
-                    <h1 class ="text-2xl font-normal mb-1">Content Dashboard</h1>
-                    <h1 class = "text-gray-800 text-sm"> Overview of your Digital Garden</h1>
+                <div>
+                    <h2 class="text-2xl font-bold tracking-tight">Content Dashboard</h2>
+                    <p :class="postStore.isDark ? 'text-[#ccc3d8]' : 'text-gray-500'" class="text-sm">Overview of your Digital Garden</p>
                 </div>
             </div>
-            <section class = 'p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+            
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <DashboardCard
-                    :background-color="PostStore.isDark ? 'bg-gradient-to-br from-[#1e293b] to-blue-900' : 'shadow-md bg-white'"
                     title="Total Posts"
-                    :value="PostStore.PostCount"
+                    :value="postStore.PostCount"
                     subtitle="All time"
                     icon="mdi:file-document-outline"
-                    icon-color="text-blue-400"/>
+                    gradientClass="from-blue-500 to-indigo-500"
+                    iconColorClass="text-blue-500" />
                 <DashboardCard
-                    :background-color="PostStore.isDark ? 'bg-gradient-to-br from-[#1e293b] to-purple-900' : 'shadow-md bg-white'"
                     title="This Month"
-                    :value="PostStore.MonthlyPostCount"
-                    :subtitle="PostStore.GetCurrentMonth + ' ' + PostStore.GetCurrentYear"
+                    :value="postStore.MonthlyPostCount"
+                    :subtitle="postStore.GetCurrentMonth + ' ' + postStore.GetCurrentYear"
                     icon="mdi:calendar-month"
-                    icon-color="text-purple-400"/>
+                    gradientClass="from-purple-500 to-pink-500"
+                    iconColorClass="text-purple-400" />
                 <DashboardCard
-                    :background-color="PostStore.isDark ?'bg-gradient-to-br from-teal-900 to-teal-800' : 'shadow-md bg-white'"
                     title="Unique Tags"
-                    :value="PostStore.UniqueTagCount"
+                    :value="postStore.UniqueTagCount"
                     subtitle="Categories created"
                     icon="mdi:tag-multiple-outline"
-                    icon-color="text-teal-400"/>
-            </section>
-        </section>
-
-        <DashBoardManager/>
+                    gradientClass="from-teal-400 to-emerald-500"
+                    iconColorClass="text-teal-400" />
+            </div>
+            
+            <!-- Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <DashboardChart />
+                <PopularTags />
+            </div>
+            
+            <!-- Table -->
+            <DashBoardManager />
+            
+        </div>
     </main>
-
 </template>
