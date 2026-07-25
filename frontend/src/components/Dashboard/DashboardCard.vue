@@ -18,7 +18,7 @@ const props = defineProps({
     <div :class="[
             'rounded-xl p-6 relative overflow-hidden group transition-all duration-300',
             postStore.isDark 
-                ? 'bg-[#1e293b]/60 backdrop-blur-xl border border-white/5 hover:border-white/20' 
+                ? 'bg-[#1e1e2e]/80 backdrop-blur-xl border border-white/5 hover:border-[#7c3aed]/30 shadow-[0_0_15px_rgba(124,58,237,0.05)]' 
                 : 'bg-white shadow-lg hover:shadow-xl border border-gray-100'
         ]">
         <div :class="['absolute top-0 left-0 w-full h-1 bg-gradient-to-r opacity-70', props.gradientClass]"></div>

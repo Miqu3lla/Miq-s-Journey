@@ -112,9 +112,9 @@ onMounted(async () => {
             class="mb-4 p-4 pl-5 w-full hover:scale-101 transition-transform"
             :class="[
                 postStore.isDark 
-                    ? 'bg-[#1e293b] text-white border border-gray-500 rounded-3xl shadow-md' 
-                    : 'bg-white text-black rounded-lg shadow-md hover:shadow-3xl hover:scale-105',
-                    'hover:border-white'
+                    ? 'bg-[#1e293b]/60 backdrop-blur-xl text-[#e3e0f6] border border-white/5 rounded-3xl shadow-[0_0_15px_rgba(124,58,237,0.05)]' 
+                    : 'bg-white text-black rounded-lg shadow-md hover:shadow-2xl hover:scale-105',
+                    'hover:border-[#7c3aed]/50 transition-all duration-300'
             ]">
             
             <!-- View Mode -->
@@ -122,7 +122,7 @@ onMounted(async () => {
                 <div class="flex justify-between items-center mb-2">
                     <h1>{{ post.title }}</h1>
                     <div v-if="authStore.isOwner" class="flex gap-3">
-                        <Icon @click="startEditing(post)" icon="mdi:pencil" class="h-5 w-5 text-gray-400 hover:text-indigo-500 cursor-pointer transition-colors" title="Edit post"/>
+                        <Icon @click="startEditing(post)" icon="mdi:pencil" class="h-5 w-5 text-gray-400 hover:text-[#00f4fe] cursor-pointer transition-colors" title="Edit post"/>
                         <Icon @click= "confirmDelete(post._id)"icon="mdi:delete" class="h-5 w-5 text-gray-400 hover:text-red-500 cursor-pointer transition-colors" title="Delete post"/>
                     </div>
                 </div>
@@ -131,8 +131,8 @@ onMounted(async () => {
                     <h1>{{ formatDate(post.createdAt) }}</h1>
                 </div>
                 <h1 class = 'mb-10'>{{ post.content }}</h1>
-                <div v-if="post.tags.length >= 1 "class = 'flex justify-start gap-1 text-indigo-400 '>
-                    <h1 v-for="tag in post.tags.slice(0,99)" :class="postStore.isDark? 'bg-[#0f172a]' : 'bg-gray-100'" class="rounded-md p-2">#{{ tag }}</h1>
+                <div v-if="post.tags.length >= 1 "class = 'flex justify-start gap-1'>
+                    <h1 v-for="tag in post.tags.slice(0,99)" :class="postStore.isDark? 'bg-[#7c3aed]/20 text-[#d2bbff]' : 'bg-indigo-100 text-indigo-700'" class="rounded-md p-2 font-medium">#{{ tag }}</h1>
                 </div>
             </div>
 
@@ -144,21 +144,21 @@ onMounted(async () => {
                 </div>
                     <form @submit.prevent="editPost(post._id)">
                     <input v-model="newTitle" type="text" placeholder="Post Title..."
-                        :class="postStore.isDark ? 'bg-[#334155] border-gray-600 text-white' : 'bg-white border-gray-300'"
-                        class="w-full border p-2 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+                        :class="postStore.isDark ? 'bg-[#121221] border-[#343344] text-[#e3e0f6] focus:ring-[#7c3aed]' : 'bg-white border-gray-300 focus:ring-indigo-500'"
+                        class="w-full border p-2 rounded-md mb-4 focus:outline-none focus:ring-2 transition-colors"/>
                     <textarea v-model="newContent" placeholder="What's on your mind?"
-                        :class="postStore.isDark ? 'bg-[#334155] border-gray-600 text-white' : 'bg-white border-gray-300'"
-                        class="w-full border p-2 rounded-md h-30 mb-4 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                        :class="postStore.isDark ? 'bg-[#121221] border-[#343344] text-[#e3e0f6] focus:ring-[#7c3aed]' : 'bg-white border-gray-300 focus:ring-indigo-500'"
+                        class="w-full border p-2 rounded-md h-30 mb-4 resize-none focus:outline-none focus:ring-2 transition-colors"></textarea>
                     <input v-model="newTags" type="text" placeholder="Tags (comma separated)..."
-                        :class="postStore.isDark ? 'bg-[#334155] border-gray-600 text-white' : 'bg-white border-gray-300'"
-                        class="w-full border p-2 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"/>
+                        :class="postStore.isDark ? 'bg-[#121221] border-[#343344] text-[#e3e0f6] focus:ring-[#7c3aed]' : 'bg-white border-gray-300 focus:ring-indigo-500'"
+                        class="w-full border p-2 rounded-md mb-4 focus:outline-none focus:ring-2 transition-colors"/>
                     <div class='flex justify-end gap-3'>
                         <button type="button" @click="cancelEdit"
                             :class="postStore.isDark ? 'bg-gray-600 hover:bg-gray-500' : 'bg-gray-300 hover:bg-gray-400'"
                             class="px-6 py-2 rounded-md text-white font-medium cursor-pointer transition-colors">Cancel</button>
                         <button type="submit"
-                            :class="postStore.isDark ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-indigo-600 hover:bg-indigo-700'"
-                            class="px-6 py-2 rounded-md text-white font-medium cursor-pointer transition-colors">Save Changes</button>
+                            :class="postStore.isDark ? 'bg-[#7c3aed] hover:bg-[#6d28d9] shadow-[0_0_10px_rgba(124,58,237,0.3)]' : 'bg-indigo-600 hover:bg-indigo-700'"
+                            class="px-6 py-2 rounded-md text-white font-medium cursor-pointer transition-all">Save Changes</button>
                     </div>
                 </form>
             </div>
