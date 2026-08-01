@@ -20,6 +20,7 @@ app.use(cors({
 })); // Enable Cross-Origin Resource Sharing
 
 // API Routes
+app.get('/', (req, res) => res.send('OK'))
 app.use('/api/post', postRoutes); // Post-related endpoints
 app.use('/api/user', userRoutes); // User-related endpoints
 
